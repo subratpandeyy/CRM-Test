@@ -1,0 +1,95 @@
+package com.crm.controller;
+
+import com.crm.dto.LeadDto;
+import com.crm.service.LeadService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/leads")
+@CrossOrigin(origins = "*")
+public class LeadController {
+    
+    @Autowired
+    private LeadService leadService;
+    
+    @PostMapping
+    public ResponseEntity<?> createLead(@Valid @RequestBody LeadDto leadDto, Authentication authentication) {
+        try {
+            // Extract orgId from JWT token
+            Long orgId = getOrgIdFromAuthentication(authentication);
+            leadDto.setOrgId(orgId);
+            
+            LeadDto createdLead = leadService.createLead(leadDto);
+            return ResponseEntity.ok(createdLead);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
+    
+    @GetMapping
+    public ResponseEntity<?> getLeadsByOrganization(Authentication authentication) {
+        try {
+            Long orgId = getOrgIdFromAuthentication(authentication);
+            List<LeadDto> leads = leadService.getLeadsByOrganization(orgId);
+            return ResponseEntity.ok(leads);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
+    
+    @GetMapping("/{leadId}")
+    public ResponseEntity<?> getLeadById(@PathVariable Long leadId) {
+        try {
+            LeadDto lead = leadService.getLeadById(leadId);
+            return ResponseEntity.ok(lead);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
+    
+    @PutMapping("/{leadId}")
+    public ResponseEntity<?> updateLead(@PathVariable Long leadId, @Valid @RequestBody LeadDto leadDto) {
+        try {
+            LeadDto updatedLead = leadService.updateLead(leadId, leadDto);
+            return ResponseEntity.ok(updatedLead);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
+    
+    @DeleteMapping("/{leadId}")
+    public ResponseEntity<?> deleteLead(@PathVariable Long leadId) {
+        try {
+            leadService.deleteLead(leadId);
+            return ResponseEntity.ok("Lead deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
+    
+    @PutMapping("/{leadId}/status")
+    public ResponseEntity<?> updateLeadStatus(@PathVariable Long leadId, @RequestParam Boolean isVerified) {
+        try {
+            LeadDto updatedLead = leadService.updateLeadStatus(leadId, isVerified);
+            return ResponseEntity.ok(updatedLead);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
+    
+    private Long getOrgIdFromAuthentication(Authentication authentication) {
+        // Extract orgId from JWT token claims
+        if (authentication != null && authentication.getPrincipal() instanceof org.springframework.security.core.userdetails.UserDetails) {
+            // For JWT tokens, we need to extract from the token itself
+            // This is a simplified approach - in production, you'd extract from JWT claims
+            return 1L; // Default orgId for now
+        }
+        return 1L; // Default fallback
+    }
+}
