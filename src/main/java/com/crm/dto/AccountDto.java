@@ -1,5 +1,6 @@
 package com.crm.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -45,12 +46,14 @@ public class AccountDto {
     @Size(max = 100, message = "Country must not exceed 100 characters")
     private String country;
     
-    @NotNull(message = "Organization ID is required")
     private Long orgId;
     
     private Long memberId;
     
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
+    
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
     
     // Constructors

@@ -89,7 +89,7 @@ public class SimpleAuthService {
             }
             
             // Generate JWT token
-            String token = jwtConfig.generateToken(email, orgId, roleName);
+            String token = jwtConfig.generateToken(email, orgId, roleName, memberId);
             logger.info("SimpleAuthService: JWT token generated successfully, length: {}", token.length());
             
             // Return JwtResponse with primitive types only - no entities involved

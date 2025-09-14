@@ -9,6 +9,7 @@ import com.crm.repository.MemberRepository;
 import com.crm.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +26,16 @@ public class LeadService {
     @Autowired
     private MemberRepository memberRepository;
     
+    @Transactional
     public LeadDto createLead(LeadDto leadDto) {
+        // Validate that orgId and memberId are provided (auto-populated by controller)
+        if (leadDto.getOrgId() == null) {
+            throw new RuntimeException("Organization ID is required");
+        }
+        if (leadDto.getMemberId() == null) {
+            throw new RuntimeException("Member ID is required");
+        }
+        
         Organization organization = organizationRepository.findById(leadDto.getOrgId())
                 .orElseThrow(() -> new RuntimeException("Organization not found"));
         
@@ -44,32 +54,38 @@ public class LeadService {
         return convertToDto(savedLead);
     }
     
+    @Transactional(readOnly = true)
     public List<LeadDto> getLeadsByOrganization(Long orgId) {
         Organization organization = organizationRepository.findById(orgId)
                 .orElseThrow(() -> new RuntimeException("Organization not found"));
         
-        return leadRepository.findByOrganization(organization)
+        return leadRepository.findByOrganizationWithRelations(organization)
                 .stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
     
+    @Transactional(readOnly = true)
     public List<LeadDto> getLeadsByMember(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("Member not found"));
         
-        return leadRepository.findByMember(member)
+        return leadRepository.findByMemberWithRelations(member)
                 .stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
     
+    @Transactional(readOnly = true)
     public LeadDto getLeadById(Long leadId) {
-        Lead lead = leadRepository.findById(leadId)
-                .orElseThrow(() -> new RuntimeException("Lead not found"));
+        Lead lead = leadRepository.findByIdWithRelations(leadId);
+        if (lead == null) {
+            throw new RuntimeException("Lead not found");
+        }
         return convertToDto(lead);
     }
     
+    @Transactional
     public LeadDto updateLead(Long leadId, LeadDto leadDto) {
         Lead lead = leadRepository.findById(leadId)
                 .orElseThrow(() -> new RuntimeException("Lead not found"));
@@ -86,6 +102,7 @@ public class LeadService {
         return convertToDto(savedLead);
     }
     
+    @Transactional
     public void deleteLead(Long leadId) {
         if (!leadRepository.existsById(leadId)) {
             throw new RuntimeException("Lead not found");
@@ -93,6 +110,7 @@ public class LeadService {
         leadRepository.deleteById(leadId);
     }
     
+    @Transactional
     public LeadDto updateLeadStatus(Long leadId, Boolean isVerified) {
         Lead lead = leadRepository.findById(leadId)
                 .orElseThrow(() -> new RuntimeException("Lead not found"));

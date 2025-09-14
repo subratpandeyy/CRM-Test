@@ -18,19 +18,39 @@ public class Deal {
     @Column(name = "deal_id")
     private Long dealId;
     
-    @NotBlank(message = "Deal title is required")
-    @Size(max = 200, message = "Deal title must not exceed 200 characters")
-    @Column(name = "title", nullable = false)
-    private String title;
+    @NotBlank(message = "Deal name is required")
+    @Size(max = 200, message = "Deal name must not exceed 200 characters")
+    @Column(name = "deal_name", nullable = false)
+    private String dealName;
+    
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+    
+    @DecimalMin(value = "0.0", message = "Deal value must be positive")
+    @Column(name = "deal_value", precision = 15, scale = 2)
+    private BigDecimal dealValue;
     
     @NotBlank(message = "Deal stage is required")
     @Size(max = 50, message = "Deal stage must not exceed 50 characters")
-    @Column(name = "stage", nullable = false)
-    private String stage;
+    @Column(name = "deal_stage", nullable = false)
+    private String dealStage;
     
-    @DecimalMin(value = "0.0", message = "Deal value must be positive")
-    @Column(name = "value", precision = 15, scale = 2)
-    private BigDecimal value;
+    @Column(name = "expected_close_date")
+    private LocalDateTime expectedCloseDate;
+    
+    @Column(name = "actual_close_date")
+    private LocalDateTime actualCloseDate;
+    
+    @Column(name = "probability")
+    private String probability;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id")
+    private Account account;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contact_id")
+    private Contact contact;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "org_id", nullable = false)
@@ -68,10 +88,10 @@ public class Deal {
     // Constructors
     public Deal() {}
     
-    public Deal(String title, String stage, BigDecimal value, Organization organization, Member member) {
-        this.title = title;
-        this.stage = stage;
-        this.value = value;
+    public Deal(String dealName, String dealStage, BigDecimal dealValue, Organization organization, Member member) {
+        this.dealName = dealName;
+        this.dealStage = dealStage;
+        this.dealValue = dealValue;
         this.organization = organization;
         this.member = member;
     }
@@ -85,28 +105,76 @@ public class Deal {
         this.dealId = dealId;
     }
     
-    public String getTitle() {
-        return title;
+    public String getDealName() {
+        return dealName;
     }
     
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDealName(String dealName) {
+        this.dealName = dealName;
     }
     
-    public String getStage() {
-        return stage;
+    public String getDescription() {
+        return description;
     }
     
-    public void setStage(String stage) {
-        this.stage = stage;
+    public void setDescription(String description) {
+        this.description = description;
     }
     
-    public BigDecimal getValue() {
-        return value;
+    public BigDecimal getDealValue() {
+        return dealValue;
     }
     
-    public void setValue(BigDecimal value) {
-        this.value = value;
+    public void setDealValue(BigDecimal dealValue) {
+        this.dealValue = dealValue;
+    }
+    
+    public String getDealStage() {
+        return dealStage;
+    }
+    
+    public void setDealStage(String dealStage) {
+        this.dealStage = dealStage;
+    }
+    
+    public LocalDateTime getExpectedCloseDate() {
+        return expectedCloseDate;
+    }
+    
+    public void setExpectedCloseDate(LocalDateTime expectedCloseDate) {
+        this.expectedCloseDate = expectedCloseDate;
+    }
+    
+    public LocalDateTime getActualCloseDate() {
+        return actualCloseDate;
+    }
+    
+    public void setActualCloseDate(LocalDateTime actualCloseDate) {
+        this.actualCloseDate = actualCloseDate;
+    }
+    
+    public String getProbability() {
+        return probability;
+    }
+    
+    public void setProbability(String probability) {
+        this.probability = probability;
+    }
+    
+    public Account getAccount() {
+        return account;
+    }
+    
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+    
+    public Contact getContact() {
+        return contact;
+    }
+    
+    public void setContact(Contact contact) {
+        this.contact = contact;
     }
     
     public Organization getOrganization() {

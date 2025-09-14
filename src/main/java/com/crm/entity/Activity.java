@@ -17,13 +17,37 @@ public class Activity {
     
     @NotBlank(message = "Activity type is required")
     @Size(max = 50, message = "Activity type must not exceed 50 characters")
-    @Column(name = "type", nullable = false)
-    private String type;
+    @Column(name = "activity_type", nullable = false)
+    private String activityType;
     
-    @NotBlank(message = "Activity description is required")
-    @Size(max = 500, message = "Activity description must not exceed 500 characters")
-    @Column(name = "description", nullable = false)
+    @NotBlank(message = "Activity subject is required")
+    @Size(max = 200, message = "Activity subject must not exceed 200 characters")
+    @Column(name = "subject", nullable = false)
+    private String subject;
+    
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+    
+    @Column(name = "activity_date")
+    private LocalDateTime activityDate;
+    
+    @Column(name = "status")
+    private String status;
+    
+    @Column(name = "priority")
+    private String priority;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id")
+    private Account account;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contact_id")
+    private Contact contact;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "deal_id")
+    private Deal deal;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lead_id")
@@ -57,8 +81,9 @@ public class Activity {
     // Constructors
     public Activity() {}
     
-    public Activity(String type, String description, Lead lead, Organization organization, Member member) {
-        this.type = type;
+    public Activity(String activityType, String subject, String description, Lead lead, Organization organization, Member member) {
+        this.activityType = activityType;
+        this.subject = subject;
         this.description = description;
         this.lead = lead;
         this.organization = organization;
@@ -74,12 +99,20 @@ public class Activity {
         this.activityId = activityId;
     }
     
-    public String getType() {
-        return type;
+    public String getActivityType() {
+        return activityType;
     }
     
-    public void setType(String type) {
-        this.type = type;
+    public void setActivityType(String activityType) {
+        this.activityType = activityType;
+    }
+    
+    public String getSubject() {
+        return subject;
+    }
+    
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
     
     public String getDescription() {
@@ -88,6 +121,54 @@ public class Activity {
     
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public LocalDateTime getActivityDate() {
+        return activityDate;
+    }
+    
+    public void setActivityDate(LocalDateTime activityDate) {
+        this.activityDate = activityDate;
+    }
+    
+    public String getStatus() {
+        return status;
+    }
+    
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    public String getPriority() {
+        return priority;
+    }
+    
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+    
+    public Account getAccount() {
+        return account;
+    }
+    
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+    
+    public Contact getContact() {
+        return contact;
+    }
+    
+    public void setContact(Contact contact) {
+        this.contact = contact;
+    }
+    
+    public Deal getDeal() {
+        return deal;
+    }
+    
+    public void setDeal(Deal deal) {
+        this.deal = deal;
     }
     
     public Lead getLead() {

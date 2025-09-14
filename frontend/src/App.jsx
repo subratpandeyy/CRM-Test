@@ -13,6 +13,7 @@ import Activities from './components/Activities.jsx';
 import Members from './components/Members.jsx';
 import Organizations from './components/Organizations.jsx';
 import Layout from './components/Layout.jsx';
+import CRMLandingPage from './components/CRMLandingPage.jsx';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -25,11 +26,15 @@ function ProtectedRoute({ children }) {
     );
   }
   
-  return user ? children : <Navigate to="/login" />;
+  return user ? children : <Navigate to="/home" />;
 }
 
 // Create router with future flags to suppress warnings
 const router = createBrowserRouter([
+  {
+    path: "/home",
+    element: <CRMLandingPage />
+  },
   {
     path: "/login",
     element: <Login />

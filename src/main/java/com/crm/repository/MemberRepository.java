@@ -18,6 +18,15 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("SELECT m FROM Member m LEFT JOIN FETCH m.role LEFT JOIN FETCH m.organization WHERE m.email = :email")
     Optional<Member> findByEmailWithRoleAndOrganization(@Param("email") String email);
     
+    @Query("SELECT m FROM Member m LEFT JOIN FETCH m.role LEFT JOIN FETCH m.organization WHERE m.organization = :organization")
+    List<Member> findByOrganizationWithRelations(@Param("organization") Organization organization);
+    
+    @Query("SELECT m FROM Member m LEFT JOIN FETCH m.role LEFT JOIN FETCH m.organization")
+    List<Member> findAllWithRelations();
+    
+    @Query("SELECT m FROM Member m LEFT JOIN FETCH m.role LEFT JOIN FETCH m.organization WHERE m.memberId = :memberId")
+    Member findByIdWithRelations(@Param("memberId") Long memberId);
+    
     @Query(value = "SELECT m.member_id, m.email, m.name, m.password, m.status, o.org_id, o.org_name, r.role_name " +
                    "FROM members m " +
                    "LEFT JOIN organizations o ON m.org_id = o.org_id " +

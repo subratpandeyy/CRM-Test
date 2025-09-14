@@ -1,5 +1,6 @@
 package com.crm.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -25,14 +26,16 @@ public class LeadDto {
     
     private Boolean isVerified;
     
-    @NotNull(message = "Organization ID is required")
     private Long orgId;
     
-    @NotNull(message = "Member ID is required")
     private Long memberId;
     
     private String memberName;
+    
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
+    
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
     
     // Constructors

@@ -2,6 +2,8 @@ package com.crm.controller;
 
 import com.crm.dto.DealDto;
 import com.crm.service.DealService;
+import com.crm.util.AuthenticationUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +20,18 @@ public class DealController {
     @Autowired
     private DealService dealService;
     
+    @Autowired
+    private AuthenticationUtils authenticationUtils;
+    
     @PostMapping
-    public ResponseEntity<?> createDeal(@Valid @RequestBody DealDto dealDto, Authentication authentication) {
+    public ResponseEntity<?> createDeal(@Valid @RequestBody DealDto dealDto, Authentication authentication, HttpServletRequest request) {
         try {
-            Long orgId = getOrgIdFromAuthentication(authentication);
+            // Extract orgId and memberId from JWT token
+            Long orgId = authenticationUtils.getOrgIdFromAuthentication(authentication, request);
+            Long memberId = authenticationUtils.getMemberIdFromAuthentication(authentication, request);
+            
             dealDto.setOrgId(orgId);
+            dealDto.setMemberId(memberId);
             
             DealDto createdDeal = dealService.createDeal(dealDto);
             return ResponseEntity.ok(createdDeal);
@@ -32,9 +41,9 @@ public class DealController {
     }
     
     @GetMapping
-    public ResponseEntity<?> getDealsByOrganization(Authentication authentication) {
+    public ResponseEntity<?> getDealsByOrganization(Authentication authentication, HttpServletRequest request) {
         try {
-            Long orgId = getOrgIdFromAuthentication(authentication);
+            Long orgId = authenticationUtils.getOrgIdFromAuthentication(authentication, request);
             List<DealDto> deals = dealService.getDealsByOrganization(orgId);
             return ResponseEntity.ok(deals);
         } catch (Exception e) {

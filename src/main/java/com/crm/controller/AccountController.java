@@ -2,6 +2,8 @@ package com.crm.controller;
 
 import com.crm.dto.AccountDto;
 import com.crm.service.AccountService;
+import com.crm.util.AuthenticationUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +20,18 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
     
+    @Autowired
+    private AuthenticationUtils authenticationUtils;
+    
     @PostMapping
-    public ResponseEntity<?> createAccount(@Valid @RequestBody AccountDto accountDto, Authentication authentication) {
+    public ResponseEntity<?> createAccount(@Valid @RequestBody AccountDto accountDto, Authentication authentication, HttpServletRequest request) {
         try {
-            Long orgId = getOrgIdFromAuthentication(authentication);
+            // Extract orgId and memberId from JWT token
+            Long orgId = authenticationUtils.getOrgIdFromAuthentication(authentication, request);
+            Long memberId = authenticationUtils.getMemberIdFromAuthentication(authentication, request);
+            
             accountDto.setOrgId(orgId);
+            accountDto.setMemberId(memberId);
             
             AccountDto createdAccount = accountService.createAccount(accountDto);
             return ResponseEntity.ok(createdAccount);
@@ -32,9 +41,9 @@ public class AccountController {
     }
     
     @GetMapping
-    public ResponseEntity<?> getAccountsByOrganization(Authentication authentication) {
+    public ResponseEntity<?> getAccountsByOrganization(Authentication authentication, HttpServletRequest request) {
         try {
-            Long orgId = getOrgIdFromAuthentication(authentication);
+            Long orgId = authenticationUtils.getOrgIdFromAuthentication(authentication, request);
             List<AccountDto> accounts = accountService.getAccountsByOrganization(orgId);
             return ResponseEntity.ok(accounts);
         } catch (Exception e) {
@@ -72,11 +81,4 @@ public class AccountController {
         }
     }
     
-    private Long getOrgIdFromAuthentication(Authentication authentication) {
-        // Extract orgId from JWT token claims
-        if (authentication != null && authentication.getPrincipal() instanceof org.springframework.security.core.userdetails.UserDetails) {
-            return 1L; // Default orgId for now
-        }
-        return 1L; // Default fallback
-    }
 }

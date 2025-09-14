@@ -1,5 +1,6 @@
 package com.crm.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.DecimalMin;
@@ -26,20 +27,25 @@ public class DealDto {
     @Size(max = 50, message = "Deal stage must not exceed 50 characters")
     private String dealStage;
     
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime expectedCloseDate;
+    
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime actualCloseDate;
     
     @Size(max = 100, message = "Probability must not exceed 100 characters")
     private String probability;
     
-    @NotNull(message = "Organization ID is required")
     private Long orgId;
     
     private Long memberId;
     private Long accountId;
     private Long contactId;
     
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
+    
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
     
     // Constructors

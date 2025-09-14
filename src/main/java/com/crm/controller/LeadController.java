@@ -2,6 +2,8 @@ package com.crm.controller;
 
 import com.crm.dto.LeadDto;
 import com.crm.service.LeadService;
+import com.crm.util.AuthenticationUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +20,18 @@ public class LeadController {
     @Autowired
     private LeadService leadService;
     
+    @Autowired
+    private AuthenticationUtils authenticationUtils;
+    
     @PostMapping
-    public ResponseEntity<?> createLead(@Valid @RequestBody LeadDto leadDto, Authentication authentication) {
+    public ResponseEntity<?> createLead(@Valid @RequestBody LeadDto leadDto, Authentication authentication, HttpServletRequest request) {
         try {
-            // Extract orgId from JWT token
-            Long orgId = getOrgIdFromAuthentication(authentication);
+            // Extract orgId and memberId from JWT token
+            Long orgId = authenticationUtils.getOrgIdFromAuthentication(authentication, request);
+            Long memberId = authenticationUtils.getMemberIdFromAuthentication(authentication, request);
+            
             leadDto.setOrgId(orgId);
+            leadDto.setMemberId(memberId);
             
             LeadDto createdLead = leadService.createLead(leadDto);
             return ResponseEntity.ok(createdLead);
@@ -33,9 +41,9 @@ public class LeadController {
     }
     
     @GetMapping
-    public ResponseEntity<?> getLeadsByOrganization(Authentication authentication) {
+    public ResponseEntity<?> getLeadsByOrganization(Authentication authentication, HttpServletRequest request) {
         try {
-            Long orgId = getOrgIdFromAuthentication(authentication);
+            Long orgId = authenticationUtils.getOrgIdFromAuthentication(authentication, request);
             List<LeadDto> leads = leadService.getLeadsByOrganization(orgId);
             return ResponseEntity.ok(leads);
         } catch (Exception e) {
@@ -83,13 +91,4 @@ public class LeadController {
         }
     }
     
-    private Long getOrgIdFromAuthentication(Authentication authentication) {
-        // Extract orgId from JWT token claims
-        if (authentication != null && authentication.getPrincipal() instanceof org.springframework.security.core.userdetails.UserDetails) {
-            // For JWT tokens, we need to extract from the token itself
-            // This is a simplified approach - in production, you'd extract from JWT claims
-            return 1L; // Default orgId for now
-        }
-        return 1L; // Default fallback
-    }
 }

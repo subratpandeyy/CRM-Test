@@ -20,13 +20,20 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
         enable_lazy_load_no_trans: false
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
     open-in-view: false
   
   jackson:
     serialization:
       fail-on-empty-beans: false
+      write-dates-as-timestamps: false
     deserialization:
       fail-on-unknown-properties: false
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: UTC
   
   security:
     jwt:

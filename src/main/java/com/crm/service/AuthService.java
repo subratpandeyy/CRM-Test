@@ -33,7 +33,7 @@ public class AuthService {
             throw new RuntimeException("Account is not active");
         }
         
-        String token = jwtConfig.generateToken(member.getEmail(), member.getOrganization().getOrgId(), member.getRole().getRoleName());
+        String token = jwtConfig.generateToken(member.getEmail(), member.getOrganization().getOrgId(), member.getRole().getRoleName(), member.getMemberId());
         
         return new JwtResponse(
             token,

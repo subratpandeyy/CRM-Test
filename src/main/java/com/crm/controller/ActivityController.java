@@ -2,6 +2,8 @@ package com.crm.controller;
 
 import com.crm.dto.ActivityDto;
 import com.crm.service.ActivityService;
+import com.crm.util.AuthenticationUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +20,18 @@ public class ActivityController {
     @Autowired
     private ActivityService activityService;
     
+    @Autowired
+    private AuthenticationUtils authenticationUtils;
+    
     @PostMapping
-    public ResponseEntity<?> createActivity(@Valid @RequestBody ActivityDto activityDto, Authentication authentication) {
+    public ResponseEntity<?> createActivity(@Valid @RequestBody ActivityDto activityDto, Authentication authentication, HttpServletRequest request) {
         try {
-            Long orgId = getOrgIdFromAuthentication(authentication);
+            // Extract orgId and memberId from JWT token
+            Long orgId = authenticationUtils.getOrgIdFromAuthentication(authentication, request);
+            Long memberId = authenticationUtils.getMemberIdFromAuthentication(authentication, request);
+            
             activityDto.setOrgId(orgId);
+            activityDto.setMemberId(memberId);
             
             ActivityDto createdActivity = activityService.createActivity(activityDto);
             return ResponseEntity.ok(createdActivity);
@@ -32,9 +41,9 @@ public class ActivityController {
     }
     
     @GetMapping
-    public ResponseEntity<?> getActivitiesByOrganization(Authentication authentication) {
+    public ResponseEntity<?> getActivitiesByOrganization(Authentication authentication, HttpServletRequest request) {
         try {
-            Long orgId = getOrgIdFromAuthentication(authentication);
+            Long orgId = authenticationUtils.getOrgIdFromAuthentication(authentication, request);
             List<ActivityDto> activities = activityService.getActivitiesByOrganization(orgId);
             return ResponseEntity.ok(activities);
         } catch (Exception e) {
@@ -72,11 +81,4 @@ public class ActivityController {
         }
     }
     
-    private Long getOrgIdFromAuthentication(Authentication authentication) {
-        // Extract orgId from JWT token claims
-        if (authentication != null && authentication.getPrincipal() instanceof org.springframework.security.core.userdetails.UserDetails) {
-            return 1L; // Default orgId for now
-        }
-        return 1L; // Default fallback
-    }
 }

@@ -2,6 +2,8 @@ package com.crm.controller;
 
 import com.crm.dto.ContactDto;
 import com.crm.service.ContactService;
+import com.crm.util.AuthenticationUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +20,18 @@ public class ContactController {
     @Autowired
     private ContactService contactService;
     
+    @Autowired
+    private AuthenticationUtils authenticationUtils;
+    
     @PostMapping
-    public ResponseEntity<?> createContact(@Valid @RequestBody ContactDto contactDto, Authentication authentication) {
+    public ResponseEntity<?> createContact(@Valid @RequestBody ContactDto contactDto, Authentication authentication, HttpServletRequest request) {
         try {
-            Long orgId = getOrgIdFromAuthentication(authentication);
+            // Extract orgId and memberId from JWT token
+            Long orgId = authenticationUtils.getOrgIdFromAuthentication(authentication, request);
+            Long memberId = authenticationUtils.getMemberIdFromAuthentication(authentication, request);
+            
             contactDto.setOrgId(orgId);
+            contactDto.setMemberId(memberId);
             
             ContactDto createdContact = contactService.createContact(contactDto);
             return ResponseEntity.ok(createdContact);
@@ -32,9 +41,9 @@ public class ContactController {
     }
     
     @GetMapping
-    public ResponseEntity<?> getContactsByOrganization(Authentication authentication) {
+    public ResponseEntity<?> getContactsByOrganization(Authentication authentication, HttpServletRequest request) {
         try {
-            Long orgId = getOrgIdFromAuthentication(authentication);
+            Long orgId = authenticationUtils.getOrgIdFromAuthentication(authentication, request);
             List<ContactDto> contacts = contactService.getContactsByOrganization(orgId);
             return ResponseEntity.ok(contacts);
         } catch (Exception e) {
@@ -72,11 +81,4 @@ public class ContactController {
         }
     }
     
-    private Long getOrgIdFromAuthentication(Authentication authentication) {
-        // Extract orgId from JWT token claims
-        if (authentication != null && authentication.getPrincipal() instanceof org.springframework.security.core.userdetails.UserDetails) {
-            return 1L; // Default orgId for now
-        }
-        return 1L; // Default fallback
-    }
 }

@@ -1,6 +1,7 @@
 com\crm\repository\AccountRepository.class
 com\crm\dto\LoginRequest.class
 com\crm\entity\Organization.class
+com\crm\controller\RoleController.class
 com\crm\entity\Lead.class
 com\crm\service\AccountService.class
 com\crm\service\SimpleAuthService.class
@@ -13,12 +14,14 @@ com\crm\service\LeadService.class
 com\crm\entity\Contact.class
 com\crm\entity\Member.class
 com\crm\repository\DealRepository.class
+com\crm\util\AuthenticationUtils.class
 com\crm\dto\OrganizationDto.class
 com\crm\dto\AccountDto.class
 com\crm\dto\ActivityDto.class
 com\crm\config\JacksonConfig.class
 com\crm\dto\LeadDto.class
 com\crm\service\DealService.class
+com\crm\controller\MemberController.class
 com\crm\service\ContactService.class
 com\crm\controller\AccountController.class
 com\crm\MultiTenantCrmApplication.class
@@ -47,4 +50,5 @@ com\crm\entity\Deal.class
 com\crm\controller\ContactController.class
 com\crm\dto\ContactDto.class
 com\crm\service\OrganizationService.class
+com\crm\controller\OrganizationController.class
 com\crm\repository\RoleRepository.class
