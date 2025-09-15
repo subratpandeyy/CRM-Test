@@ -104,7 +104,12 @@ public class MemberService implements UserDetailsService {
         }
         
         // Generate JWT token
-        String token = jwtConfig.generateToken(member.getEmail(), member.getOrganization().getOrgId(), member.getRole().getRoleName(), member.getMemberId());
+        String token = jwtConfig.generateToken(
+            member.getEmail(),
+            member.getOrganization().getOrgId(),
+            member.getRole().getRoleName(),
+            member.getMemberId()
+        );
         
         // Build and return DTO with only the required fields
         return new UserResponseDto(
@@ -138,58 +143,48 @@ public class MemberService implements UserDetailsService {
         return convertToDto(savedMember);
     }
     
-    @Transactional(readOnly = true)
     public List<MemberDto> getMembersByOrganization(Long orgId) {
         Organization organization = organizationRepository.findById(orgId)
                 .orElseThrow(() -> new RuntimeException("Organization not found"));
         
-        return memberRepository.findByOrganizationWithRelations(organization)
+        return memberRepository.findByOrganization(organization)
                 .stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
     
-    @Transactional(readOnly = true)
-    public List<MemberDto> getAllMembers() {
-        return memberRepository.findAllWithRelations()
-                .stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
-    }
-    
-    @Transactional(readOnly = true)
     public MemberDto getMemberById(Long memberId) {
-        Member member = memberRepository.findByIdWithRelations(memberId);
-        if (member == null) {
-            throw new RuntimeException("Member not found");
-        }
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("Member not found"));
         return convertToDto(member);
+    }
+    
+    public List<MemberDto> getAllMembers() {
+        return memberRepository.findAll()
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
     
     public MemberDto updateMember(Long memberId, MemberDto memberDto) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("Member not found"));
         
-        // Check if email already exists for another member
-        if (memberDto.getEmail() != null && !memberDto.getEmail().equals(member.getEmail()) 
-            && memberRepository.existsByEmail(memberDto.getEmail())) {
-            throw new RuntimeException("Member with this email already exists");
-        }
-        
         member.setName(memberDto.getName());
         member.setEmail(memberDto.getEmail());
-        member.setStatus(memberDto.getStatus());
+        
+        if (memberDto.getPassword() != null && !memberDto.getPassword().isEmpty()) {
+            member.setPassword(passwordEncoder.encode(memberDto.getPassword()));
+        }
+        
+        if (memberDto.getStatus() != null) {
+            member.setStatus(memberDto.getStatus());
+        }
         
         if (memberDto.getRoleId() != null) {
             Role role = roleRepository.findById(memberDto.getRoleId())
                     .orElseThrow(() -> new RuntimeException("Role not found"));
             member.setRole(role);
-        }
-        
-        if (memberDto.getOrgId() != null) {
-            Organization organization = organizationRepository.findById(memberDto.getOrgId())
-                    .orElseThrow(() -> new RuntimeException("Organization not found"));
-            member.setOrganization(organization);
         }
         
         Member savedMember = memberRepository.save(member);
@@ -202,7 +197,6 @@ public class MemberService implements UserDetailsService {
         }
         memberRepository.deleteById(memberId);
     }
-    
     
     public MemberDto updateMemberStatus(Long memberId, Member.MemberStatus status) {
         Member member = memberRepository.findById(memberId)

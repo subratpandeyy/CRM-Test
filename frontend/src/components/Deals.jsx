@@ -86,6 +86,7 @@ function Deals() {
     try {
       const dealData = {
         ...formData,
+        title: formData.dealName,
         dealValue: formData.dealValue ? parseFloat(formData.dealValue) : 0,
         expectedCloseDate: formData.expectedCloseDate ? new Date(formData.expectedCloseDate).toISOString() : null,
         actualCloseDate: formData.actualCloseDate ? new Date(formData.actualCloseDate).toISOString() : null,
@@ -105,8 +106,11 @@ function Deals() {
       resetForm();
       fetchDeals();
     } catch (error) {
-      console.error('Error saving deal:', error);
-      toast.error('Failed to save deal');
+      const backendMessage = typeof error.response?.data === 'string'
+        ? error.response.data
+        : (error.response?.data?.message || error.response?.data?.error || 'Invalid input, please check date format');
+      console.error('Error saving deal:', backendMessage);
+      toast.error(backendMessage);
     }
   };
 

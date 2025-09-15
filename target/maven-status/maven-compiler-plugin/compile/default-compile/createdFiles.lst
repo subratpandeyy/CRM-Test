@@ -26,6 +26,7 @@ com\crm\service\ContactService.class
 com\crm\controller\AccountController.class
 com\crm\MultiTenantCrmApplication.class
 com\crm\service\AuthService.class
+com\crm\config\GlobalExceptionHandler.class
 com\crm\entity\Account.class
 com\crm\controller\LeadController.class
 com\crm\controller\ActivityController.class

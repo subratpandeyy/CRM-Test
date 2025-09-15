@@ -45,6 +45,7 @@ D:\CRM Test\src\main\java\com\crm\entity\Organization.java
 D:\CRM Test\src\main\java\com\crm\controller\AuthController.java
 D:\CRM Test\src\main\java\com\crm\service\AuthService.java
 D:\CRM Test\src\main\java\com\crm\util\AuthenticationUtils.java
+D:\CRM Test\src\main\java\com\crm\config\GlobalExceptionHandler.java
 D:\CRM Test\src\main\java\com\crm\service\MemberService.java
 D:\CRM Test\src\main\java\com\crm\security\JwtAuthenticationFilter.java
 D:\CRM Test\src\main\java\com\crm\dto\JwtResponse.java

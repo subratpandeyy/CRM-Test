@@ -7,7 +7,7 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public class DealDto {
     private Long dealId;
@@ -27,11 +27,11 @@ public class DealDto {
     @Size(max = 50, message = "Deal stage must not exceed 50 characters")
     private String dealStage;
     
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime expectedCloseDate;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
+    private OffsetDateTime expectedCloseDate;
     
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime actualCloseDate;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
+    private OffsetDateTime actualCloseDate;
     
     @Size(max = 100, message = "Probability must not exceed 100 characters")
     private String probability;
@@ -42,17 +42,17 @@ public class DealDto {
     private Long accountId;
     private Long contactId;
     
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
+    private OffsetDateTime createdAt;
     
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
+    private OffsetDateTime updatedAt;
     
     // Constructors
     public DealDto() {}
     
     public DealDto(String dealName, String description, BigDecimal dealValue, 
-                   String dealStage, LocalDateTime expectedCloseDate, String probability, 
+                   String dealStage, OffsetDateTime expectedCloseDate, String probability, 
                    Long orgId, Long memberId, Long accountId, Long contactId) {
         this.dealName = dealName;
         this.description = description;
@@ -107,19 +107,19 @@ public class DealDto {
         this.dealStage = dealStage;
     }
     
-    public LocalDateTime getExpectedCloseDate() {
+    public OffsetDateTime getExpectedCloseDate() {
         return expectedCloseDate;
     }
     
-    public void setExpectedCloseDate(LocalDateTime expectedCloseDate) {
+    public void setExpectedCloseDate(OffsetDateTime expectedCloseDate) {
         this.expectedCloseDate = expectedCloseDate;
     }
     
-    public LocalDateTime getActualCloseDate() {
+    public OffsetDateTime getActualCloseDate() {
         return actualCloseDate;
     }
     
-    public void setActualCloseDate(LocalDateTime actualCloseDate) {
+    public void setActualCloseDate(OffsetDateTime actualCloseDate) {
         this.actualCloseDate = actualCloseDate;
     }
     
@@ -163,19 +163,19 @@ public class DealDto {
         this.contactId = contactId;
     }
     
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
     
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
     
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
     
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

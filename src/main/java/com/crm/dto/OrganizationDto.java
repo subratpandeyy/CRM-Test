@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public class OrganizationDto {
     
@@ -20,16 +20,16 @@ public class OrganizationDto {
     @Size(max = 100, message = "Organization email must not exceed 100 characters")
     private String orgEmail;
     
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
+    private OffsetDateTime createdAt;
     
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
+    private OffsetDateTime updatedAt;
     
     // Constructors
     public OrganizationDto() {}
     
-    public OrganizationDto(Long orgId, String orgName, String orgEmail, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public OrganizationDto(Long orgId, String orgName, String orgEmail, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.orgId = orgId;
         this.orgName = orgName;
         this.orgEmail = orgEmail;
@@ -62,19 +62,19 @@ public class OrganizationDto {
         this.orgEmail = orgEmail;
     }
     
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
     
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
     
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
     
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

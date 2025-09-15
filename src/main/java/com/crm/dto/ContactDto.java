@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public class ContactDto {
     
@@ -32,18 +32,18 @@ public class ContactDto {
     private String memberName;
     private String accountName;
     
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
+    private OffsetDateTime createdAt;
     
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
+    private OffsetDateTime updatedAt;
     
     // Constructors
     public ContactDto() {}
     
     public ContactDto(Long contactId, String contactName, String contactEmail, String phone,
                      Long orgId, Long memberId, Long accountId, String memberName, String accountName,
-                     LocalDateTime createdAt, LocalDateTime updatedAt) {
+                     OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.contactId = contactId;
         this.contactName = contactName;
         this.contactEmail = contactEmail;
@@ -130,19 +130,19 @@ public class ContactDto {
         this.accountName = accountName;
     }
     
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
     
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
     
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
     
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 }
