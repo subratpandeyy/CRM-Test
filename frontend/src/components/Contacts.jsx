@@ -94,17 +94,17 @@ function Contacts() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className="p-2 bg-primary-100 rounded-lg">
+          <div className="p-3 bg-gradient-to-br from-primary-100 to-primary-200 rounded-xl shadow-lg">
             <Users className="h-6 w-6 text-primary-600" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-secondary-900">Contacts</h1>
-            <p className="text-secondary-600">Manage your customer contacts</p>
+            <h1 className="text-3xl font-bold text-text">Contacts</h1>
+            <p className="text-gray-600">Manage your customer contacts</p>
           </div>
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className="btn btn-primary btn-md flex items-center space-x-2"
+          className="btn btn-primary btn-md flex items-center space-x-2 hover:scale-105 transition-all duration-200"
         >
           <Plus className="h-4 w-4" />
           <span>Add Contact</span>
@@ -113,13 +113,13 @@ function Contacts() {
 
       {/* Error Alert */}
       {error && (
-        <div className="bg-danger-50 border border-danger-200 text-danger-700 px-4 py-3 rounded-lg">
+        <div className="bg-danger-50 border border-danger-200 text-danger-700 px-4 py-3 rounded-xl">
           {error}
         </div>
       )}
 
       {/* Contacts Table */}
-      <div className="card">
+      <div className="card hover:shadow-xl transition-all duration-300">
         <div className="card-content">
           <div className="overflow-x-auto">
             <table className="table">
@@ -136,27 +136,27 @@ function Contacts() {
               </thead>
               <tbody className="table-body">
                 {contacts.map((contact) => (
-                  <tr key={contact.contactId} className="table-row">
-                    <td className="table-cell font-medium">{contact.contactName}</td>
+                  <tr key={contact.contactId} className="table-row hover:bg-gray-50">
+                    <td className="table-cell font-medium text-text">{contact.contactName}</td>
                     <td className="table-cell">{contact.contactEmail}</td>
                     <td className="table-cell">{contact.phone || '-'}</td>
                     <td className="table-cell">{contact.accountName || '-'}</td>
                     <td className="table-cell">{contact.memberName}</td>
-                    <td className="table-cell text-secondary-600">
+                    <td className="table-cell text-gray-600">
                       {new Date(contact.createdAt).toLocaleDateString()}
                     </td>
                     <td className="table-cell">
                       <div className="flex items-center space-x-2">
                         <button
                           onClick={() => handleEdit(contact)}
-                          className="btn btn-outline btn-sm flex items-center space-x-1"
+                          className="btn btn-outline btn-sm flex items-center space-x-1 hover:scale-105 transition-all duration-200"
                         >
                           <Edit className="h-3 w-3" />
                           <span>Edit</span>
                         </button>
                         <button
                           onClick={() => handleDelete(contact.contactId)}
-                          className="btn btn-outline btn-sm flex items-center space-x-1 text-danger-600 hover:text-danger-700 hover:border-danger-300"
+                          className="btn btn-outline btn-sm flex items-center space-x-1 text-danger-600 hover:text-danger-700 hover:border-danger-300 hover:scale-105 transition-all duration-200"
                         >
                           <Trash2 className="h-3 w-3" />
                           <span>Delete</span>
@@ -174,14 +174,14 @@ function Contacts() {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
             <div className="card-header">
               <h3 className="card-title">{editingContact ? 'Edit Contact' : 'Add New Contact'}</h3>
             </div>
             <form onSubmit={handleSubmit}>
               <div className="card-content space-y-4">
                 {error && (
-                  <div className="bg-danger-50 border border-danger-200 text-danger-700 px-4 py-3 rounded-lg">
+                  <div className="bg-danger-50 border border-danger-200 text-danger-700 px-4 py-3 rounded-xl">
                     {error}
                   </div>
                 )}

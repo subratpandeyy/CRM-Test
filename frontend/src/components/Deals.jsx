@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HandHeart, Plus, Search, Edit, Trash2, Eye, DollarSign, Calendar, Target, X } from 'lucide-react';
+import { HandHeart, Plus, Search, Edit, Trash2, Eye, DollarSign, Calendar, Target, X, IndianRupee } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import api from '../services/api.js';
 import toast from 'react-hot-toast';
@@ -179,7 +179,7 @@ function Deals() {
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD'
+      currency: 'INR'
     }).format(amount || 0);
   };
 
@@ -201,17 +201,17 @@ function Deals() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className="p-2 bg-primary-100 rounded-lg">
+          <div className="p-3 bg-gradient-to-br from-primary-100 to-primary-200 rounded-xl shadow-lg">
             <HandHeart className="h-6 w-6 text-primary-600" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-secondary-900">Deals</h1>
-            <p className="text-secondary-600">Manage your sales opportunities</p>
+            <h1 className="text-3xl font-bold text-text">Deals</h1>
+            <p className="text-gray-600">Manage your sales opportunities</p>
           </div>
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className="btn btn-primary"
+          className="btn btn-primary btn-lg hover:scale-105 transition-all duration-200"
         >
           <Plus className="h-4 w-4 mr-2" />
           Add Deal
@@ -284,7 +284,7 @@ function Deals() {
                     
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-secondary-600">
                       <div className="flex items-center space-x-2">
-                        <DollarSign className="h-4 w-4" />
+                        <IndianRupee className="h-4 w-4" />
                         <span className="font-medium">{formatCurrency(deal.dealValue)}</span>
                       </div>
                       

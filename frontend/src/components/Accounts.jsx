@@ -128,17 +128,17 @@ function Accounts() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className="p-2 bg-primary-100 rounded-lg">
+          <div className="p-3 bg-gradient-to-br from-primary-100 to-primary-200 rounded-xl shadow-lg">
             <Building2 className="h-6 w-6 text-primary-600" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-secondary-900">Accounts</h1>
-            <p className="text-secondary-600">Manage your customer accounts</p>
+            <h1 className="text-3xl font-bold text-text">Accounts</h1>
+            <p className="text-gray-600">Manage your customer accounts</p>
           </div>
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className="btn btn-primary"
+          className="btn btn-primary btn-lg hover:scale-105 transition-all duration-200"
         >
           <Plus className="h-4 w-4 mr-2" />
           Add Account
@@ -146,11 +146,11 @@ function Accounts() {
       </div>
 
       {/* Search and Filters */}
-      <div className="card">
+      <div className="card hover:shadow-xl transition-all duration-300">
         <div className="card-content">
           <div className="flex items-center space-x-4">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-secondary-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search accounts..."
@@ -166,17 +166,17 @@ function Accounts() {
       {/* Accounts List */}
       <div className="grid gap-4">
         {filteredAccounts.length === 0 ? (
-          <div className="card">
+          <div className="card hover:shadow-xl transition-all duration-300">
             <div className="card-content text-center py-12">
-              <Building2 className="h-12 w-12 text-secondary-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-secondary-900 mb-2">No accounts found</h3>
-              <p className="text-secondary-600 mb-4">
+              <Building2 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-text mb-2">No accounts found</h3>
+              <p className="text-gray-600 mb-4">
                 {searchTerm ? 'No accounts match your search criteria.' : 'Get started by creating your first account.'}
               </p>
               {!searchTerm && (
                 <button
                   onClick={() => setShowModal(true)}
-                  className="btn btn-primary"
+                  className="btn btn-primary hover:scale-105 transition-all duration-200"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Account
@@ -186,22 +186,22 @@ function Accounts() {
           </div>
         ) : (
           filteredAccounts.map((account) => (
-            <div key={account.accountId} className="card hover:shadow-md transition-shadow">
+            <div key={account.accountId} className="card hover:shadow-xl transition-all duration-300 hover:scale-105">
               <div className="card-content">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-2">
-                      <h3 className="text-lg font-semibold text-secondary-900">
+                      <h3 className="text-lg font-semibold text-text">
                         {account.accountName}
                       </h3>
                       {account.industry && (
-                        <span className="px-2 py-1 text-xs font-medium bg-primary-100 text-primary-800 rounded-full">
+                        <span className="px-2 py-1 text-xs font-medium bg-gradient-to-r from-primary-100 to-primary-200 text-primary-800 rounded-full shadow-sm">
                           {account.industry}
                         </span>
                       )}
                     </div>
                     
-                    <div className="space-y-1 text-sm text-secondary-600">
+                    <div className="space-y-1 text-sm text-gray-600">
                       {account.email && (
                         <div className="flex items-center space-x-2">
                           <Mail className="h-4 w-4" />

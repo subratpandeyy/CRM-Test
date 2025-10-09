@@ -105,17 +105,17 @@ function Organizations() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className="p-2 bg-primary-100 rounded-lg">
+          <div className="p-3 bg-gradient-to-br from-primary-100 to-primary-200 rounded-xl shadow-lg">
             <Building2 className="h-6 w-6 text-primary-600" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-secondary-900">Organizations</h1>
-            <p className="text-secondary-600">Manage organizations and their settings</p>
+            <h1 className="text-3xl font-bold text-text">Organizations</h1>
+            <p className="text-gray-600">Manage organizations and their settings</p>
           </div>
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className="btn btn-primary"
+          className="btn p-3 btn-primary hover:scale-105 transition-all duration-200"
         >
           <Plus className="h-4 w-4 mr-2" />
           Add Organization

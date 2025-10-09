@@ -101,10 +101,10 @@ function Register() {
               <BarChart3 className="h-8 w-8 text-white" />
             </div>
           </div>
-          <h2 className="mt-6 text-3xl font-bold text-secondary-900">
+          <h2 className="mt-6 text-3xl font-bold text-text">
             Create your organization
           </h2>
-          <p className="mt-2 text-sm text-secondary-600">
+          <p className="mt-2 text-sm text-gray-600">
             Get started with CRM Pro in just a few steps
           </p>
         </motion.div>
@@ -119,7 +119,7 @@ function Register() {
           {[1, 2].map((step) => (
             <div key={step} className="flex items-center">
               <div className={`flex h-8 w-8 items-center justify-center rounded-full ${
-                currentStep >= step ? 'bg-primary-600 text-white' : 'bg-secondary-200 text-secondary-600'
+                currentStep >= step ? 'bg-primary-600 text-white' : 'bg-gray-200 text-gray-600'
               }`}>
                 {currentStep > step ? (
                   <CheckCircle className="h-5 w-5" />
@@ -153,8 +153,8 @@ function Register() {
               >
                 <div className="text-center mb-6">
                   <Building2 className="h-12 w-12 text-primary-600 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-secondary-900">Organization Details</h3>
-                  <p className="text-sm text-secondary-600">Tell us about your organization</p>
+                  <h3 className="text-xl font-semibold text-text">Organization Details</h3>
+                  <p className="text-sm text-gray-600">Tell us about your organization</p>
                 </div>
 
                 <div>
@@ -163,7 +163,7 @@ function Register() {
                   </label>
                   <div className="mt-1 relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Building2 className="h-5 w-5 text-secondary-400" />
+                      <Building2 className="h-5 w-5 text-gray-400" />
                     </div>
                     <input
                       id="orgName"
@@ -184,7 +184,7 @@ function Register() {
                   </label>
                   <div className="mt-1 relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Mail className="h-5 w-5 text-secondary-400" />
+                      <Mail className="h-5 w-5 text-gray-400" />
                     </div>
                     <input
                       id="orgEmail"
@@ -219,8 +219,8 @@ function Register() {
               >
                 <div className="text-center mb-6">
                   <User className="h-12 w-12 text-primary-600 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-secondary-900">Admin Account</h3>
-                  <p className="text-sm text-secondary-600">Create your administrator account</p>
+                  <h3 className="text-xl font-semibold text-text">Admin Account</h3>
+                  <p className="text-sm text-gray-600">Create your administrator account</p>
                 </div>
 
                 <div>
@@ -250,7 +250,7 @@ function Register() {
                   </label>
                   <div className="mt-1 relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Mail className="h-5 w-5 text-secondary-400" />
+                      <Mail className="h-5 w-5 text-gray-400" />
                     </div>
                     <input
                       id="adminEmail"

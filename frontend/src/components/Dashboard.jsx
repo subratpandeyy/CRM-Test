@@ -11,7 +11,7 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   Activity,
-  DollarSign,
+  IndianRupee,
   Hand
 } from 'lucide-react';
 import { 
@@ -250,10 +250,10 @@ function Dashboard() {
     },
     {
       title: 'Total Value',
-      value: `$${stats.totalValue.toLocaleString()}`,
+      value: `₹${stats.totalValue.toLocaleString()}`,
       change: '+15%',
       changeType: 'positive',
-      icon: DollarSign,
+      icon: IndianRupee,
       color: 'success'
     }
   ];
@@ -272,19 +272,19 @@ function Dashboard() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-r from-primary-600 to-primary-700 rounded-2xl p-8 text-white"
+        className="bg-[#fff] rounded-2xl p-8 text-white shadow-xl"
       >
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold mb-2">
+            <h1 className="text-3xl font-bold mb-2 text-[#000]">
               Welcome back, {user?.name}!
             </h1>
-            <p className="text-primary-100 text-lg">
+            <p className="text-primary-600 text-lg">
               Here's what's happening with your CRM today
             </p>
           </div>
           <div className="hidden md:block">
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+            <div className="bg-primary-500 backdrop-blur-sm rounded-xl p-6 border border-primary-300">
               <div className="text-center">
                 <div className="text-2xl font-bold">{new Date().toLocaleDateString()}</div>
                 <div className="text-primary-100 text-sm">Today</div>
@@ -309,13 +309,13 @@ function Dashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + index * 0.1 }}
-              className="card hover:shadow-lg transition-shadow duration-200"
+              className="card hover:shadow-xl transition-all duration-300 hover:scale-105 pt-3"
             >
               <div className="card-content">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-secondary-600">{stat.title}</p>
-                    <p className="text-3xl font-bold text-secondary-900 mt-2">{stat.value}</p>
+                    <p className="text-sm font-medium text-gray-600">{stat.title}</p>
+                    <p className="text-3xl font-bold text-text mt-2">{stat.value}</p>
                     <div className="flex items-center mt-2">
                       {stat.changeType === 'positive' ? (
                         <ArrowUpRight className="h-4 w-4 text-success-600 mr-1" />
@@ -327,10 +327,10 @@ function Dashboard() {
                       }`}>
                         {stat.change}
                       </span>
-                      <span className="text-sm text-secondary-500 ml-1">from last month</span>
+                      <span className="text-sm text-gray-500 ml-1">from last month</span>
                     </div>
                   </div>
-                  <div className={`p-3 rounded-xl bg-${stat.color}-100`}>
+                  <div className={`p-4 rounded-xl bg-gradient-to-br from-${stat.color}-100 to-${stat.color}-200 shadow-lg`}>
                     <Icon className={`h-6 w-6 text-${stat.color}-600`} />
                   </div>
                 </div>
@@ -347,7 +347,7 @@ function Dashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="card"
+          className="card hover:shadow-xl transition-all duration-300"
         >
           <div className="card-header">
             <h3 className="card-title">Deals Overview</h3>
@@ -357,12 +357,29 @@ function Dashboard() {
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="leads" fill="#3b82f6" name="Leads" />
-                  <Bar dataKey="deals" fill="#10b981" name="Deals" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <XAxis dataKey="name" stroke="#6b7280" />
+                  <YAxis stroke="#6b7280" />
+                  <Tooltip 
+                    contentStyle={{
+                      backgroundColor: 'white',
+                      border: '1px solid #e5e7eb',
+                      borderRadius: '12px',
+                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                    }}
+                  />
+                  <Bar dataKey="leads" fill="url(#leadsGradient)" name="Leads" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="deals" fill="url(#dealsGradient)" name="Deals" radius={[4, 4, 0, 0]} />
+                  <defs>
+                    <linearGradient id="leadsGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#2563eb" />
+                      <stop offset="100%" stopColor="#1d4ed8" />
+                    </linearGradient>
+                    <linearGradient id="dealsGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#10b981" />
+                      <stop offset="100%" stopColor="#059669" />
+                    </linearGradient>
+                  </defs>
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -374,7 +391,7 @@ function Dashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="card"
+          className="card hover:shadow-xl transition-all duration-300"
         >
           <div className="card-header">
             <h3 className="card-title">Deal Stages</h3>
@@ -397,7 +414,14 @@ function Dashboard() {
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
-                  <Tooltip />
+                  <Tooltip 
+                    contentStyle={{
+                      backgroundColor: 'white',
+                      border: '1px solid #e5e7eb',
+                      borderRadius: '12px',
+                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                    }}
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -405,10 +429,10 @@ function Dashboard() {
               {pieData.map((item, index) => (
                 <div key={index} className="flex items-center">
                   <div 
-                    className="w-3 h-3 rounded-full mr-2" 
+                    className="w-3 h-3 rounded-full mr-2 shadow-sm" 
                     style={{ backgroundColor: item.color }}
                   />
-                  <span className="text-sm text-secondary-600">{item.name}</span>
+                  <span className="text-sm text-gray-600">{item.name}</span>
                 </div>
               ))}
             </div>
@@ -423,7 +447,7 @@ function Dashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="lg:col-span-2 card"
+          className="lg:col-span-2 card hover:shadow-xl transition-all duration-300"
         >
           <div className="card-header">
             <h3 className="card-title">Recent Activities</h3>
@@ -437,21 +461,21 @@ function Dashboard() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.5 + index * 0.1 }}
-                  className="flex items-center space-x-4 p-4 bg-secondary-50 rounded-lg hover:bg-secondary-100 transition-colors"
+                  className="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-all duration-200 hover:scale-105"
                 >
                   <div className="flex-shrink-0">
-                    <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                    <div className="w-10 h-10 bg-gradient-to-br from-primary-100 to-primary-200 rounded-full flex items-center justify-center shadow-sm">
                       <Activity className="h-5 w-5 text-primary-600" />
                     </div>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-secondary-900">
+                    <p className="text-sm font-medium text-text">
                       {activity.action}
                     </p>
-                    <p className="text-sm text-secondary-600">{activity.name}</p>
+                    <p className="text-sm text-gray-600">{activity.name}</p>
                   </div>
                   <div className="flex-shrink-0">
-                    <p className="text-xs text-secondary-500">{activity.time}</p>
+                    <p className="text-xs text-gray-500">{activity.time}</p>
                   </div>
                 </motion.div>
               ))}
@@ -464,7 +488,7 @@ function Dashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="card"
+          className="card hover:shadow-xl transition-all duration-300"
         >
           <div className="card-header">
             <h3 className="card-title">Quick Actions</h3>
@@ -472,15 +496,15 @@ function Dashboard() {
           </div>
           <div className="card-content">
             <div className="space-y-3">
-              <button className="w-full btn btn-primary btn-sm justify-start" onClick={() => setShowLeadModal(true)}>
+              <button className="w-full btn btn-primary btn-sm justify-start hover:scale-105 transition-all duration-200" onClick={() => setShowLeadModal(true)}>
                 <Plus className="h-4 w-4 mr-2" />
                 Add New Lead
               </button>
-              <button className="w-full btn btn-outline btn-sm justify-start" onClick={() => setShowDealModal(true)}>
+              <button className="w-full btn btn-outline btn-sm justify-start hover:scale-105 transition-all duration-200" onClick={() => setShowDealModal(true)}>
                 <HandHeart className="h-4 w-4 mr-2" />
                 Add Deal
               </button>
-              <button className="w-full btn btn-outline btn-sm justify-start" onClick={() => setShowActivityModal(true)}>
+              <button className="w-full btn btn-outline btn-sm justify-start hover:scale-105 transition-all duration-200" onClick={() => setShowActivityModal(true)}>
                 <Calendar className="h-4 w-4 mr-2" />
                 Schedule Activity
               </button>
@@ -491,66 +515,78 @@ function Dashboard() {
 
       {/* Lead Modal */}
       {showLeadModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">Add New Lead</h2>
-              <button className="text-secondary-500" onClick={() => setShowLeadModal(false)}>✕</button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <motion.div 
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl"
+          >
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold text-text">Add New Lead</h2>
+              <button className="text-gray-500 hover:text-gray-700 transition-colors" onClick={() => setShowLeadModal(false)}>✕</button>
             </div>
-            <form onSubmit={handleCreateLead} className="space-y-3">
+            <form onSubmit={handleCreateLead} className="space-y-4">
               <input className="input w-full" placeholder="Lead Name" value={leadForm.leadName} onChange={e => setLeadForm({ ...leadForm, leadName: e.target.value })} required />
               <input className="input w-full" placeholder="Lead Email" type="email" value={leadForm.leadEmail} onChange={e => setLeadForm({ ...leadForm, leadEmail: e.target.value })} required />
               <input className="input w-full" placeholder="Phone" value={leadForm.phone} onChange={e => setLeadForm({ ...leadForm, phone: e.target.value })} />
-              <div className="flex justify-end space-x-2 pt-2">
+              <div className="flex justify-end space-x-3 pt-4">
                 <button type="button" className="btn btn-secondary" onClick={() => setShowLeadModal(false)}>Cancel</button>
                 <button type="submit" className="btn btn-primary">Create Lead</button>
               </div>
             </form>
-          </div>
+          </motion.div>
         </div>
       )}
 
       {/* Deal Modal */}
       {showDealModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">Add Deal</h2>
-              <button className="text-secondary-500" onClick={() => setShowDealModal(false)}>✕</button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <motion.div 
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl"
+          >
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold text-text">Add Deal</h2>
+              <button className="text-gray-500 hover:text-gray-700 transition-colors" onClick={() => setShowDealModal(false)}>✕</button>
             </div>
-            <form onSubmit={handleCreateDeal} className="space-y-3">
+            <form onSubmit={handleCreateDeal} className="space-y-4">
               <input className="input w-full" placeholder="Deal Name" value={dealForm.dealName} onChange={e => setDealForm({ ...dealForm, dealName: e.target.value })} required />
               <input className="input w-full" placeholder="Description" value={dealForm.description} onChange={e => setDealForm({ ...dealForm, description: e.target.value })} />
               <input className="input w-full" placeholder="Value" type="number" value={dealForm.dealValue} onChange={e => setDealForm({ ...dealForm, dealValue: e.target.value })} />
               <input className="input w-full" placeholder="Stage" value={dealForm.dealStage} onChange={e => setDealForm({ ...dealForm, dealStage: e.target.value })} />
-              <div className="flex justify-end space-x-2 pt-2">
+              <div className="flex justify-end space-x-3 pt-4">
                 <button type="button" className="btn btn-secondary" onClick={() => setShowDealModal(false)}>Cancel</button>
                 <button type="submit" className="btn btn-primary">Create Deal</button>
               </div>
             </form>
-          </div>
+          </motion.div>
         </div>
       )}
 
       {/* Activity Modal */}
       {showActivityModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">Schedule Activity</h2>
-              <button className="text-secondary-500" onClick={() => setShowActivityModal(false)}>✕</button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <motion.div 
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl"
+          >
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold text-text">Schedule Activity</h2>
+              <button className="text-gray-500 hover:text-gray-700 transition-colors" onClick={() => setShowActivityModal(false)}>✕</button>
             </div>
-            <form onSubmit={handleCreateActivity} className="space-y-3">
+            <form onSubmit={handleCreateActivity} className="space-y-4">
               <input className="input w-full" placeholder="Activity Type" value={activityForm.activityType} onChange={e => setActivityForm({ ...activityForm, activityType: e.target.value })} required />
               <input className="input w-full" placeholder="Subject" value={activityForm.subject} onChange={e => setActivityForm({ ...activityForm, subject: e.target.value })} required />
               <input className="input w-full" type="datetime-local" value={activityForm.activityDate} onChange={e => setActivityForm({ ...activityForm, activityDate: e.target.value })} required />
               <textarea className="input w-full" placeholder="Description" value={activityForm.description} onChange={e => setActivityForm({ ...activityForm, description: e.target.value })} />
-              <div className="flex justify-end space-x-2 pt-2">
+              <div className="flex justify-end space-x-3 pt-4">
                 <button type="button" className="btn btn-secondary" onClick={() => setShowActivityModal(false)}>Cancel</button>
                 <button type="submit" className="btn btn-primary">Create Activity</button>
               </div>
             </form>
-          </div>
+          </motion.div>
         </div>
       )}
     </div>

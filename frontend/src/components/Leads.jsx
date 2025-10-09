@@ -136,12 +136,12 @@ function Leads() {
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between"
       >
         <div>
-          <h1 className="text-3xl font-bold text-secondary-900">Leads</h1>
-          <p className="text-secondary-600 mt-1">Manage your potential customers</p>
+          <h1 className="text-3xl font-bold text-text">Leads</h1>
+          <p className="text-gray-600 mt-1">Manage your potential customers</p>
         </div>
         <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => setShowModal(true)}
           className="btn btn-primary btn-lg mt-4 sm:mt-0"
         >
@@ -157,43 +157,43 @@ function Leads() {
         transition={{ delay: 0.1 }}
         className="grid grid-cols-1 md:grid-cols-3 gap-6"
       >
-        <div className="card">
+        <div className="card hover:shadow-xl transition-all duration-300 hover:scale-105">
           <div className="card-content">
             <div className="flex items-center">
-              <div className="p-3 rounded-xl bg-primary-100">
+              <div className="p-4 rounded-xl bg-gradient-to-br from-primary-100 to-primary-200 shadow-lg">
                 <Users className="h-6 w-6 text-primary-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-secondary-600">Total Leads</p>
-                <p className="text-2xl font-bold text-secondary-900">{leads.length}</p>
+                <p className="text-sm font-medium text-gray-600">Total Leads</p>
+                <p className="text-2xl font-bold text-text">{leads.length}</p>
               </div>
             </div>
           </div>
         </div>
-        <div className="card">
+        <div className="card hover:shadow-xl transition-all duration-300 hover:scale-105">
           <div className="card-content">
             <div className="flex items-center">
-              <div className="p-3 rounded-xl bg-success-100">
+              <div className="p-4 rounded-xl bg-gradient-to-br from-success-100 to-success-200 shadow-lg">
                 <CheckCircle className="h-6 w-6 text-success-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-secondary-600">Verified</p>
-                <p className="text-2xl font-bold text-secondary-900">
+                <p className="text-sm font-medium text-gray-600">Verified</p>
+                <p className="text-2xl font-bold text-text">
                   {leads.filter(lead => lead.isVerified).length}
                 </p>
               </div>
             </div>
           </div>
         </div>
-        <div className="card">
+        <div className="card hover:shadow-xl transition-all duration-300 hover:scale-105">
           <div className="card-content">
             <div className="flex items-center">
-              <div className="p-3 rounded-xl bg-warning-100">
+              <div className="p-4 rounded-xl bg-gradient-to-br from-warning-100 to-warning-200 shadow-lg">
                 <XCircle className="h-6 w-6 text-warning-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-secondary-600">Unverified</p>
-                <p className="text-2xl font-bold text-secondary-900">
+                <p className="text-sm font-medium text-gray-600">Unverified</p>
+                <p className="text-2xl font-bold text-text">
                   {leads.filter(lead => !lead.isVerified).length}
                 </p>
               </div>
@@ -207,13 +207,13 @@ function Leads() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="card"
+        className="card hover:shadow-xl transition-all duration-300"
       >
         <div className="card-content">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-secondary-400" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <input
                   type="text"
                   placeholder="Search leads..."
@@ -247,7 +247,7 @@ function Leads() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="card"
+        className="card hover:shadow-xl transition-all duration-300"
       >
         <div className="card-content p-0">
           <div className="overflow-x-auto">
@@ -269,26 +269,26 @@ function Leads() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 + index * 0.05 }}
-                    className="table-row"
+                    className="table-row hover:bg-gray-50"
                   >
                     <td className="table-cell">
                       <div className="flex items-center">
-                        <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center mr-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-primary-100 to-primary-200 rounded-full flex items-center justify-center mr-3 shadow-sm">
                           <Users className="h-5 w-5 text-primary-600" />
                         </div>
                         <div>
-                          <p className="font-medium text-secondary-900">{lead.leadName}</p>
+                          <p className="font-medium text-text">{lead.leadName}</p>
                         </div>
                       </div>
                     </td>
                     <td className="table-cell">
                       <div className="space-y-1">
-                        <div className="flex items-center text-sm text-secondary-600">
+                        <div className="flex items-center text-sm text-gray-600">
                           <Mail className="h-4 w-4 mr-2" />
                           {lead.leadEmail}
                         </div>
                         {lead.phone && (
-                          <div className="flex items-center text-sm text-secondary-600">
+                          <div className="flex items-center text-sm text-gray-600">
                             <Phone className="h-4 w-4 mr-2" />
                             {lead.phone}
                           </div>
@@ -300,7 +300,7 @@ function Leads() {
                         onClick={() => handleStatusChange(lead.leadId, !lead.isVerified)}
                         className={`badge ${
                           lead.isVerified ? 'badge-success' : 'badge-warning'
-                        } cursor-pointer hover:opacity-80 transition-opacity`}
+                        } cursor-pointer hover:scale-105 transition-all duration-200`}
                       >
                         {lead.isVerified ? (
                           <>
@@ -316,10 +316,10 @@ function Leads() {
                       </button>
                     </td>
                     <td className="table-cell">
-                      <span className="text-sm text-secondary-600">{lead.memberName}</span>
+                      <span className="text-sm text-gray-600">{lead.memberName}</span>
                     </td>
                     <td className="table-cell">
-                      <div className="flex items-center text-sm text-secondary-600">
+                      <div className="flex items-center text-sm text-gray-600">
                         <Calendar className="h-4 w-4 mr-2" />
                         {new Date(lead.createdAt).toLocaleDateString()}
                       </div>
@@ -328,13 +328,13 @@ function Leads() {
                       <div className="flex items-center space-x-2">
                         <button
                           onClick={() => handleEdit(lead)}
-                          className="btn btn-outline btn-sm"
+                          className="btn btn-outline btn-sm hover:scale-105 transition-all duration-200"
                         >
                           <Edit className="h-4 w-4" />
                         </button>
                         <button
                           onClick={() => handleDelete(lead.leadId)}
-                          className="btn btn-outline btn-sm text-danger-600 hover:text-danger-700"
+                          className="btn btn-outline btn-sm text-danger-600 hover:text-danger-700 hover:scale-105 transition-all duration-200"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
@@ -362,10 +362,10 @@ function Leads() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-2xl p-6 w-full max-w-md"
+              className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <h2 className="text-2xl font-bold text-secondary-900 mb-6">
+              <h2 className="text-2xl font-bold text-text mb-6">
                 {editingLead ? 'Edit Lead' : 'Add New Lead'}
               </h2>
               
@@ -415,9 +415,9 @@ function Leads() {
                     name="isVerified"
                     checked={formData.isVerified}
                     onChange={(e) => setFormData({ ...formData, isVerified: e.target.checked })}
-                    className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-secondary-300 rounded"
+                    className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                   />
-                  <label htmlFor="isVerified" className="ml-2 text-sm text-secondary-900">
+                  <label htmlFor="isVerified" className="ml-2 text-sm text-text">
                     Verified Lead
                   </label>
                 </div>
