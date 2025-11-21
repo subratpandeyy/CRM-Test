@@ -26,4 +26,17 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
     
     @Query("SELECT l FROM Lead l LEFT JOIN FETCH l.organization LEFT JOIN FETCH l.member WHERE l.leadId = :leadId")
     Lead findByIdWithRelations(@Param("leadId") Long leadId);
+
+    @Query("""
+    SELECT 
+        YEAR(l.createdAt) AS year,
+        MONTH(l.createdAt) AS month,
+        COUNT(l.id) AS leadCount
+    FROM Lead l
+    WHERE l.organization = :organization
+    GROUP BY YEAR(l.createdAt), MONTH(l.createdAt)
+    ORDER BY YEAR(l.createdAt), MONTH(l.createdAt)
+""")
+List<Object[]> findMonthlyLeadSummaryByOrganization(@Param("organization") Organization organization);
+
 }

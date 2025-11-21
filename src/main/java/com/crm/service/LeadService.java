@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -118,6 +121,23 @@ public class LeadService {
         lead.setIsVerified(isVerified);
         Lead savedLead = leadRepository.save(lead);
         return convertToDto(savedLead);
+    }
+
+      @Transactional(readOnly = true)
+    public List<Map<String, Object>> getMonthlySummary(Long orgId) {
+        Organization organization = organizationRepository.findById(orgId)
+                .orElseThrow(() -> new RuntimeException("Organization not found"));
+
+        List<Object[]> rows = leadRepository.findMonthlyLeadSummaryByOrganization(organization);
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Object[] r : rows) {
+            Map<String, Object> row = new HashMap<>();
+            row.put("year", ((Number) r[0]).intValue());
+            row.put("month", ((Number) r[1]).intValue());
+            row.put("leadCount", ((Number) r[2]).intValue());
+            result.add(row);
+        }
+        return result;
     }
     
     private LeadDto convertToDto(Lead lead) {

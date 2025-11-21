@@ -52,6 +52,16 @@ public class LeadController {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
     }
+
+    @GetMapping("/summary")
+    public ResponseEntity<?> getLeadSummary(Authentication authentication, HttpServletRequest request) {
+        try {
+            Long orgId = authenticationUtils.getOrgIdFromAuthentication(authentication, request);
+            return ResponseEntity.ok(leadService.getMonthlySummary(orgId));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
     
     @GetMapping("/{leadId}")
     public ResponseEntity<?> getLeadById(@PathVariable Long leadId) {

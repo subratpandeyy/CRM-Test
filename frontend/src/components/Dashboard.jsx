@@ -110,13 +110,14 @@ function Dashboard() {
     try {
       setLoading(true);
       const isManagerOrAdmin = role === 'Admin' || role === 'Manager';
-      const [leadsRes, contactsRes, accountsRes, dealsRes, activitiesRes, dealSummaryRes, dealStagesRes] = await Promise.all([
+      const [leadsRes, contactsRes, accountsRes, dealsRes, activitiesRes, dealSummaryRes, leadSummaryRes, dealStagesRes] = await Promise.all([
         api.get('/leads').catch(() => ({ data: [] })),
         api.get('/contacts').catch(() => ({ data: [] })),
         api.get('/accounts').catch(() => ({ data: [] })),
         api.get('/deals').catch(() => ({ data: [] })),
         api.get('/activities').catch(() => ({ data: [] })),
         isManagerOrAdmin ? api.get('/deals/summary').catch(() => ({ data: [] })) : Promise.resolve({ data: [] }),
+        isManagerOrAdmin ? api.get('/leads/summary').catch(() => ({ data: [] })) : Promise.resolve({ data: [] }),
         isManagerOrAdmin ? api.get('/deals/stages').catch(() => ({ data: [] })) : Promise.resolve({ data: [] })
       ]);
 
@@ -147,62 +148,122 @@ function Dashboard() {
       setRecentActivities(sortedActivities);
 
       // Use backend summaries if available
-      const dealSummary = Array.isArray(dealSummaryRes.data) ? dealSummaryRes.data : [];
-      if (dealSummary.length > 0) {
-        const summaryChart = dealSummary.map(d => ({
-          name: `${d.year}-${String(d.month).padStart(2, '0')}`,
-          deals: d.dealCount,
-          leads: 0,
-          revenue: 0
-        }));
-        setChartData(summaryChart);
-      } else {
-        // Fallback to local monthly aggregation
-        const byMonth = (items, dateKey, valueKey) => {
-          const map = new Map();
-          for (const item of items) {
-            const d = item[dateKey] ? new Date(item[dateKey]) : null;
-            if (!d) continue;
-            const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-            if (!map.has(key)) map.set(key, { name: key, leads: 0, deals: 0, revenue: 0 });
-            const entry = map.get(key);
-            if (valueKey === 'leads') entry.leads += 1;
-            if (valueKey === 'deals') entry.deals += 1;
-            if (valueKey === 'revenue') entry.revenue += item.value || item.dealValue || 0;
-            map.set(key, entry);
-          }
-          return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
-        };
-        const leadsByMonth = byMonth(leads, 'createdAt', 'leads');
-        const dealsByMonth = byMonth(deals, 'createdAt', 'deals');
-        const revenueByMonth = byMonth(deals.filter(d => (d.stage || d.dealStage) === 'Closed Won'), 'closedAt', 'revenue');
-        const mergeByName = (arrays) => {
-          const map = new Map();
-          for (const arr of arrays) {
-            for (const row of arr) {
-              const existing = map.get(row.name) || { name: row.name, leads: 0, deals: 0, revenue: 0 };
-              map.set(row.name, { ...existing, ...row });
-            }
-          }
-          return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
-        };
-        setChartData(mergeByName([leadsByMonth, dealsByMonth, revenueByMonth]));
+      // Ensure arrays
+const dealSummary = Array.isArray(dealSummaryRes.data) ? dealSummaryRes.data : [];
+const leadSummary = Array.isArray(leadSummaryRes.data) ? leadSummaryRes.data : [];
+
+// If API returned monthly summary → merge Deal + Lead summaries
+if (dealSummary.length > 0 || leadSummary.length > 0) {
+
+  const monthMap = new Map();
+
+  // 1. Insert deal data
+  dealSummary.forEach(d => {
+    const key = `${d.year}-${String(d.month).padStart(2, '0')}`;
+    if (!monthMap.has(key)) {
+      monthMap.set(key, { name: key, deals: 0, leads: 0, revenue: 0 });
+    }
+    monthMap.get(key).deals = d.dealCount;
+  });
+
+  // 2. Insert lead data
+  leadSummary.forEach(l => {
+    const key = `${l.year}-${String(l.month).padStart(2, '0')}`;
+    if (!monthMap.has(key)) {
+      monthMap.set(key, { name: key, deals: 0, leads: 0, revenue: 0 });
+    }
+    monthMap.get(key).leads = l.leadCount;
+  });
+
+  // Convert + sort
+  const summaryChart = Array.from(monthMap.values())
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  setChartData(summaryChart);
+} 
+else {
+  // ---------- FALLBACK LOCAL MONTHLY AGGREGATION ----------
+  const byMonth = (items, dateKey, valueKey) => {
+    const map = new Map();
+
+    for (const item of items) {
+      const d = item[dateKey] ? new Date(item[dateKey]) : null;
+      if (!d) continue;
+
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+
+      if (!map.has(key)) {
+        map.set(key, { name: key, leads: 0, deals: 0, revenue: 0 });
       }
 
-      const stages = Array.isArray(dealStagesRes.data) ? dealStagesRes.data : [];
-      if (stages.length > 0) {
-        const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
-        setPieData(stages.map((s, idx) => ({ name: s.stage || 'Unknown', value: s.count, color: colors[idx % colors.length] })));
-      } else {
-        const stageCounts = deals.reduce((acc, d) => {
-          const stage = d.stage || d.dealStage || 'Unknown';
-          acc[stage] = (acc[stage] || 0) + 1;
-          return acc;
-        }, {});
-        const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
-        const pie = Object.entries(stageCounts).map(([name, value], idx) => ({ name, value, color: colors[idx % colors.length] }));
-        setPieData(pie);
-      }
+      const entry = map.get(key);
+
+      if (valueKey === 'leads') entry.leads += 1;
+      if (valueKey === 'deals') entry.deals += 1;
+      if (valueKey === 'revenue') entry.revenue += item.value || item.dealValue || 0;
+
+      map.set(key, entry);
+    }
+
+    return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
+  };
+
+  // Generate fallback chart
+  const leadsByMonth = byMonth(leads, "createdAt", "leads");
+  const dealsByMonth = byMonth(deals, "createdAt", "deals");
+
+  // Merge fallback data
+  const monthMap = new Map();
+
+  leadsByMonth.forEach(m => monthMap.set(m.name, m));
+  dealsByMonth.forEach(m => {
+    if (!monthMap.has(m.name)) monthMap.set(m.name, m);
+    else {
+      const obj = monthMap.get(m.name);
+      obj.deals = m.deals;
+      monthMap.set(m.name, obj);
+    }
+  });
+
+  setChartData(Array.from(monthMap.values()));
+}
+
+
+const stages = Array.isArray(dealStagesRes.data) ? dealStagesRes.data : [];
+
+const colors = [
+  '#2563EB', // Bright Blue
+  '#16A34A', // Bright Green
+  '#F97316', // Vivid Orange
+  '#DC2626', // Bright Red
+  '#9333EA', // Vivid Purple
+  '#0891B2', // Bright Cyan
+];
+
+if (stages.length > 0) {
+  setPieData(
+    stages.map((s, idx) => ({
+      name: s.stage || 'Unknown',
+      value: s.count,
+      color: colors[idx % colors.length],
+    }))
+  );
+} else {
+  const stageCounts = deals.reduce((acc, d) => {
+    const stage = d.stage || d.dealStage || 'Unknown';
+    acc[stage] = (acc[stage] || 0) + 1;
+    return acc;
+  }, {});
+
+  const pie = Object.entries(stageCounts).map(([name, value], idx) => ({
+    name,
+    value,
+    color: colors[idx % colors.length],
+  }));
+
+  setPieData(pie);
+}
+
     } catch (error) {
       console.error('Error fetching stats:', error);
     } finally {
@@ -505,14 +566,16 @@ function Dashboard() {
                   <Bar dataKey="leads" fill="url(#leadsGradient)" name="Leads" radius={[4, 4, 0, 0]} />
                   <Bar dataKey="deals" fill="url(#dealsGradient)" name="Deals" radius={[4, 4, 0, 0]} />
                   <defs>
-                    <linearGradient id="leadsGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#2563eb" />
-                      <stop offset="100%" stopColor="#1d4ed8" />
-                    </linearGradient>
-                    <linearGradient id="dealsGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#10b981" />
-                      <stop offset="100%" stopColor="#059669" />
-                    </linearGradient>
+                  <linearGradient id="leadsGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#4DA3FF" />  {/* bright sky blue */}
+                    <stop offset="100%" stopColor="#004E92" /> {/* deep indigo */}
+                  </linearGradient>
+
+                  <linearGradient id="dealsGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#4FE0C1" />  {/* bright teal */}
+                    <stop offset="100%" stopColor="#0A7F42" /> {/* deep success green */}
+                  </linearGradient>
+
                   </defs>
                 </BarChart>
               </ResponsiveContainer>
