@@ -29,11 +29,13 @@ public interface DealRepository extends JpaRepository<Deal, Long> {
 	@Query("SELECT d FROM Deal d LEFT JOIN FETCH d.organization LEFT JOIN FETCH d.member LEFT JOIN FETCH d.account LEFT JOIN FETCH d.contact WHERE d.dealId = :dealId")
 	Deal findByIdWithRelations(@Param("dealId") Long dealId);
 
-	// Monthly deal summary for charts (year, month, count)
-	@Query("SELECT EXTRACT(YEAR FROM d.createdAt) AS year, EXTRACT(MONTH FROM d.createdAt) AS month, COUNT(d) AS dealCount FROM Deal d GROUP BY EXTRACT(YEAR FROM d.createdAt), EXTRACT(MONTH FROM d.createdAt) ORDER BY year, month")
-	List<Object[]> findMonthlyDealSummary();
+	// Monthly deal summary for charts (year, month, count) per organization
+	@Query("SELECT EXTRACT(YEAR FROM d.createdAt) AS year, EXTRACT(MONTH FROM d.createdAt) AS month, COUNT(d) AS dealCount " +
+	       "FROM Deal d WHERE d.organization = :organization " +
+	       "GROUP BY EXTRACT(YEAR FROM d.createdAt), EXTRACT(MONTH FROM d.createdAt) ORDER BY year, month")
+	List<Object[]> findMonthlyDealSummaryByOrganization(@Param("organization") Organization organization);
 
-	// Deal stage distribution
-	@Query("SELECT d.dealStage, COUNT(d) FROM Deal d GROUP BY d.dealStage")
-	List<Object[]> findDealStageDistribution();
+	// Deal stage distribution per organization
+	@Query("SELECT d.dealStage, COUNT(d) FROM Deal d WHERE d.organization = :organization GROUP BY d.dealStage")
+	List<Object[]> findDealStageDistributionByOrganization(@Param("organization") Organization organization);
 }

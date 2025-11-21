@@ -9,7 +9,22 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [roles, setRoles] = useState([]);
+  const [permissions, setPermissions] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const loadRbacForCurrentUser = async () => {
+    try {
+      const response = await api.get('/rbac/users/me');
+      const { roles: r, permissions: p } = response.data || {};
+      setRoles(r || []);
+      setPermissions(p || []);
+    } catch (e) {
+      console.error('Failed to load RBAC info for current user', e);
+      setRoles([]);
+      setPermissions([]);
+    }
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -19,7 +34,11 @@ export function AuthProvider({ children }) {
       
       // Get user info from token (you might want to decode JWT or make an API call)
       const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
-      setUser(userInfo);
+      if (userInfo && userInfo.email) {
+        setUser(userInfo);
+        loadRbacForCurrentUser().finally(() => setLoading(false));
+        return;
+      }
     }
     setLoading(false);
   }, []);
@@ -98,6 +117,9 @@ export function AuthProvider({ children }) {
         orgName,
         role
       });
+
+      // Load roles & permissions for this user
+      await loadRbacForCurrentUser();
       
       return { success: true };
     } catch (error) {
@@ -195,14 +217,30 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('userInfo');
     delete api.defaults.headers.common['Authorization'];
     setUser(null);
+    setRoles([]);
+    setPermissions([]);
+  };
+
+  const hasRole = (roleName) => {
+    if (!roleName) return false;
+    return roles.includes(roleName) || user?.role === roleName;
+  };
+
+  const hasPermission = (permissionName) => {
+    if (!permissionName) return false;
+    return permissions.includes(permissionName);
   };
 
   const value = {
     user,
+    roles,
+    permissions,
     login,
     register,
     logout,
-    loading
+    loading,
+    hasRole,
+    hasPermission
   };
 
   return (

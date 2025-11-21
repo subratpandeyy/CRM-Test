@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown, Users, BarChart3, Zap, Shield, TrendingUp, Star, ArrowRight, Menu, X, Play } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
-import { Link } from 'react-router-dom';
 
 const CRMLandingPage = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -34,29 +33,29 @@ const CRMLandingPage = () => {
   ];
 
   const pieData = [
-    { name: 'Sales Growth', value: 45, color: '#3B82F6' },
-    { name: 'Efficiency Gain', value: 35, color: '#10B981' },
-    { name: 'Cost Savings', value: 20, color: '#8B5CF6' }
+    { name: 'Sales Growth', value: 45, color: '#1F2937' },
+    { name: 'Efficiency Gain', value: 35, color: '#4B5563' },
+    { name: 'Cost Savings', value: 20, color: '#9CA3AF' }
   ];
 
   const solutions = [
     {
-      icon: <Users className="w-8 h-8 text-blue-600" />,
+      icon: <Users className="w-8 h-8 text-black" />,
       title: "Lead Management",
       description: "Track and nurture leads through automated pipelines"
     },
     {
-      icon: <Zap className="w-8 h-8 text-blue-600" />,
+      icon: <Zap className="w-8 h-8 text-black" />,
       title: "Workflow Automation",
       description: "Streamline tasks and focus on relationships"
     },
     {
-      icon: <BarChart3 className="w-8 h-8 text-blue-600" />,
+      icon: <BarChart3 className="w-8 h-8 text-black" />,
       title: "Advanced Analytics",
       description: "Real-time insights and performance metrics"
     },
     {
-      icon: <Shield className="w-8 h-8 text-blue-600" />,
+      icon: <Shield className="w-8 h-8 text-black" />,
       title: "Customer Support",
       description: "Integrated support tools and ticketing"
     }
@@ -87,47 +86,47 @@ const CRMLandingPage = () => {
   ];
 
   const companyLogos = [
-    "https://via.placeholder.com/120x40/E5E7EB/9CA3AF?text=TechCorp",
-    "https://via.placeholder.com/120x40/E5E7EB/9CA3AF?text=InnovateLab",
-    "https://via.placeholder.com/120x40/E5E7EB/9CA3AF?text=GrowthCo",
-    "https://via.placeholder.com/120x40/E5E7EB/9CA3AF?text=ScaleUp",
-    "https://via.placeholder.com/120x40/E5E7EB/9CA3AF?text=FutureGen"
+    "https://via.placeholder.com/120x40/F3F4F6/D1D5DB?text=TechCorp",
+    "https://via.placeholder.com/120x40/F3F4F6/D1D5DB?text=InnovateLab",
+    "https://via.placeholder.com/120x40/F3F4F6/D1D5DB?text=GrowthCo",
+    "https://via.placeholder.com/120x40/F3F4F6/D1D5DB?text=ScaleUp",
+    "https://via.placeholder.com/120x40/F3F4F6/D1D5DB?text=FutureGen"
   ];
 
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
       <nav className={`fixed w-full top-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm' : 'bg-transparent'
+        isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-lg' : 'bg-white'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900">CruxCRM</h1>
+              <h1 className="text-2xl font-black text-black">CruxCRM</h1>
             </div>
 
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-8">
-                <a href="#solutions" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Solutions</a>
-                <a href="#benefits" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Benefits</a>
-                <a href="#pricing" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Pricing</a>
-                <a href="#contact" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Contact</a>
+                <a href="#solutions" className="text-gray-700 hover:text-black px-3 py-2 text-sm font-semibold transition-colors duration-200">Solutions</a>
+                <a href="#benefits" className="text-gray-700 hover:text-black px-3 py-2 text-sm font-semibold transition-colors duration-200">Benefits</a>
+                <a href="#pricing" className="text-gray-700 hover:text-black px-3 py-2 text-sm font-semibold transition-colors duration-200">Pricing</a>
+                <a href="#contact" className="text-gray-700 hover:text-black px-3 py-2 text-sm font-semibold transition-colors duration-200">Contact</a>
               </div>
             </div>
 
             <div className="hidden md:block relative">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors"
+                className="flex items-center text-gray-700 hover:text-black px-3 py-2 text-sm font-semibold transition-colors duration-200"
               >
                 Sign In
                 <ChevronDown className={`ml-1 h-4 w-4 transform transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
               
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 border">
-                  <Link to={"/login"}className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">Customer Login</Link>
-                  <Link to={"/login"} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">Admin Login</Link>
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-1 z-10 border border-gray-200">
+                  <a href="#" className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200 font-medium">Customer Login</a>
+                  <a href="#" className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200 font-medium">Admin Login</a>
                 </div>
               )}
             </div>
@@ -135,7 +134,7 @@ const CRMLandingPage = () => {
             <div className="md:hidden">
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="text-gray-700 hover:text-blue-600"
+                className="text-gray-700 hover:text-black"
               >
                 {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
@@ -144,15 +143,15 @@ const CRMLandingPage = () => {
         </div>
 
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-white border-t">
+          <div className="md:hidden bg-white border-t border-gray-200">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <a href="#solutions" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600">Solutions</a>
-              <a href="#benefits" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600">Benefits</a>
-              <a href="#pricing" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600">Pricing</a>
-              <a href="#contact" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600">Contact</a>
-              <div className="border-t pt-2">
-                <a href="#" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600">Customer Login</a>
-                <a href="#" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600">Admin Login</a>
+              <a href="#solutions" className="block px-3 py-2 text-base font-semibold text-gray-700 hover:text-black">Solutions</a>
+              <a href="#benefits" className="block px-3 py-2 text-base font-semibold text-gray-700 hover:text-black">Benefits</a>
+              <a href="#pricing" className="block px-3 py-2 text-base font-semibold text-gray-700 hover:text-black">Pricing</a>
+              <a href="#contact" className="block px-3 py-2 text-base font-semibold text-gray-700 hover:text-black">Contact</a>
+              <div className="border-t border-gray-200 pt-2">
+                <a href="#" className="block px-3 py-2 text-base font-semibold text-gray-700 hover:text-black">Customer Login</a>
+                <a href="#" className="block px-3 py-2 text-base font-semibold text-gray-700 hover:text-black">Admin Login</a>
               </div>
             </div>
           </div>
@@ -160,50 +159,50 @@ const CRMLandingPage = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-20 pb-16 bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <section className="pt-32 pb-20 bg-gradient-to-br from-white via-gray-50 to-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+              <h1 className="text-5xl md:text-7xl font-black text-black mb-6 leading-tight tracking-tight">
                 Transform Your 
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600"> Revenue</span>
+                <span className="block text-gray-600"> Revenue</span>
               </h1>
-              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+              <p className="text-xl text-gray-700 mb-8 leading-relaxed font-medium">
                 The CRM that grows revenue by 45% while cutting admin time in half.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <button className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transform hover:scale-105 transition-all duration-200 shadow-lg flex items-center justify-center">
+                <button className="bg-black text-white px-8 py-4 rounded-xl font-bold hover:bg-gray-900 transform hover:scale-105 transition-all duration-200 shadow-lg flex items-center justify-center text-lg">
                   Start Free Trial
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </button>
-                <button className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-semibold hover:border-blue-600 hover:text-blue-600 transition-all duration-200 flex items-center justify-center">
+                <button className="border-2 border-black text-black px-8 py-4 rounded-xl font-bold hover:bg-black hover:text-white transition-all duration-200 flex items-center justify-center text-lg">
                   <Play className="mr-2 h-5 w-5" />
                   Watch Demo
                 </button>
               </div>
               <div className="flex items-center space-x-8">
                 <div>
-                  <p className="text-2xl font-bold text-gray-900">10,000+</p>
-                  <p className="text-sm text-gray-500">Active Users</p>
+                  <p className="text-3xl font-black text-black">10,000+</p>
+                  <p className="text-sm text-gray-600 font-semibold">Active Users</p>
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-gray-900">45%</p>
-                  <p className="text-sm text-gray-500">Avg Revenue Growth</p>
+                  <p className="text-3xl font-black text-black">45%</p>
+                  <p className="text-sm text-gray-600 font-semibold">Avg Revenue Growth</p>
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-gray-900">4.9</p>
-                  <p className="text-sm text-gray-500">Customer Rating</p>
+                  <p className="text-3xl font-black text-black">4.9</p>
+                  <p className="text-sm text-gray-600 font-semibold">Customer Rating</p>
                 </div>
               </div>
             </div>
             <div className="relative">
-              <div className="bg-white rounded-2xl shadow-2xl p-6">
+              <div className="bg-white rounded-2xl shadow-2xl p-6 border border-gray-200">
                 <img 
                   src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop" 
                   alt="CRM Dashboard"
-                  className="w-full h-80 object-cover rounded-lg mb-4"
+                  className="w-full h-80 object-cover rounded-lg mb-4 grayscale"
                 />
-                <div className="absolute top-8 right-8 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                <div className="absolute top-8 right-8 bg-black text-white px-4 py-2 rounded-full text-sm font-bold">
                   Live Demo
                 </div>
               </div>
@@ -213,49 +212,49 @@ const CRMLandingPage = () => {
       </section>
 
       {/* Company Logos */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-12 bg-gray-100 border-y border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-gray-500 mb-8">Trusted by leading companies</p>
+          <p className="text-center text-gray-600 mb-8 font-bold text-sm uppercase tracking-widest">Trusted by leading companies</p>
           <div className="flex justify-center items-center space-x-8 flex-wrap">
             {companyLogos.map((logo, index) => (
-              <img key={index} src={logo} alt={`Company ${index + 1}`} className="h-8 opacity-50 hover:opacity-75 transition-opacity" />
+              <img key={index} src={logo} alt={`Company ${index + 1}`} className="h-8 opacity-60 hover:opacity-100 transition-opacity" />
             ))}
           </div>
         </div>
       </section>
 
       {/* Solutions Section */}
-      <section id="solutions" className="py-20 bg-white">
+      <section id="solutions" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Complete CRM Solutions</h2>
-            <p className="text-xl text-gray-600">Everything you need to manage and grow your business</p>
+            <h2 className="text-5xl font-black text-black mb-4">Complete CRM Solutions</h2>
+            <p className="text-xl text-gray-700 font-medium">Everything you need to manage and grow your business</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {solutions.map((solution, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300 group">
+              <div key={index} className="bg-white p-8 rounded-xl border-2 border-gray-200 hover:border-black hover:shadow-xl transition-all duration-300 group">
                 <div className="mb-4 group-hover:scale-110 transition-transform duration-200">
                   {solution.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">{solution.title}</h3>
-                <p className="text-gray-600">{solution.description}</p>
+                <h3 className="text-xl font-black text-black mb-3">{solution.title}</h3>
+                <p className="text-gray-700 font-medium">{solution.description}</p>
               </div>
             ))}
           </div>
 
           {/* Process Efficiency Chart */}
-          <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">Time Saved with Automation</h3>
+          <div className="bg-gray-900 rounded-2xl p-8">
+            <h3 className="text-2xl font-black text-white mb-8 text-center">Time Saved with Automation</h3>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={efficiencyData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="task" />
-                  <YAxis label={{ value: 'Minutes', angle: -90, position: 'insideLeft' }} />
-                  <Tooltip />
-                  <Bar dataKey="manual" fill="#EF4444" name="Manual Process" />
-                  <Bar dataKey="automated" fill="#10B981" name="With CruxCRM" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#4B5563" />
+                  <XAxis dataKey="task" stroke="#9CA3AF" />
+                  <YAxis label={{ value: 'Minutes', angle: -90, position: 'insideLeft', fill: '#9CA3AF' }} stroke="#9CA3AF" />
+                  <Tooltip contentStyle={{ backgroundColor: '#1F2937', border: 'none', borderRadius: '8px', color: '#fff' }} />
+                  <Bar dataKey="manual" fill="#6B7280" name="Manual Process" />
+                  <Bar dataKey="automated" fill="#000000" name="With CruxCRM" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -264,52 +263,52 @@ const CRMLandingPage = () => {
       </section>
 
       {/* Benefits Section with Revenue Chart */}
-      <section id="benefits" className="py-20 bg-gray-50">
+      <section id="benefits" className="py-24 bg-gray-50 border-y border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">See Immediate Results</h2>
+              <h2 className="text-5xl font-black text-black mb-6">See Immediate Results</h2>
               <div className="space-y-6">
                 <div className="flex items-center">
-                  <div className="bg-green-100 p-3 rounded-full mr-4">
-                    <TrendingUp className="w-6 h-6 text-green-600" />
+                  <div className="bg-black p-3 rounded-full mr-4">
+                    <TrendingUp className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900">45% Revenue Growth</h3>
-                    <p className="text-gray-600">Average increase in first 6 months</p>
+                    <h3 className="text-xl font-black text-black">45% Revenue Growth</h3>
+                    <p className="text-gray-700 font-medium">Average increase in first 6 months</p>
                   </div>
                 </div>
                 <div className="flex items-center">
-                  <div className="bg-blue-100 p-3 rounded-full mr-4">
-                    <Zap className="w-6 h-6 text-blue-600" />
+                  <div className="bg-gray-800 p-3 rounded-full mr-4">
+                    <Zap className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900">3x Faster Response</h3>
-                    <p className="text-gray-600">Automated workflows save hours daily</p>
+                    <h3 className="text-xl font-black text-black">3x Faster Response</h3>
+                    <p className="text-gray-700 font-medium">Automated workflows save hours daily</p>
                   </div>
                 </div>
                 <div className="flex items-center">
-                  <div className="bg-purple-100 p-3 rounded-full mr-4">
-                    <Users className="w-6 h-6 text-purple-600" />
+                  <div className="bg-gray-700 p-3 rounded-full mr-4">
+                    <Users className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900">60% Better Collaboration</h3>
-                    <p className="text-gray-600">Centralized team communication</p>
+                    <h3 className="text-xl font-black text-black">60% Better Collaboration</h3>
+                    <p className="text-gray-700 font-medium">Centralized team communication</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="bg-white rounded-2xl shadow-xl p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Revenue Impact (6 Months)</h3>
+            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
+              <h3 className="text-xl font-black text-black mb-4">Revenue Impact (6 Months)</h3>
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={revenueData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis tickFormatter={(value) => `$${value/1000}k`} />
-                    <Tooltip formatter={(value) => [`$${value.toLocaleString()}`, '']} />
-                    <Line type="monotone" dataKey="before" stroke="#EF4444" strokeWidth={3} name="Before CruxCRM" />
-                    <Line type="monotone" dataKey="after" stroke="#10B981" strokeWidth={3} name="After CruxCRM" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                    <XAxis dataKey="month" stroke="#6B7280" />
+                    <YAxis tickFormatter={(value) => `$${value/1000}k`} stroke="#6B7280" />
+                    <Tooltip formatter={(value) => [`$${value.toLocaleString()}`, '']} contentStyle={{ backgroundColor: '#fff', border: '1px solid #e5e7eb', borderRadius: '8px' }} />
+                    <Line type="monotone" dataKey="before" stroke="#9CA3AF" strokeWidth={3} name="Before CruxCRM" />
+                    <Line type="monotone" dataKey="after" stroke="#000000" strokeWidth={3} name="After CruxCRM" />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -319,14 +318,14 @@ const CRMLandingPage = () => {
       </section>
 
       {/* Performance Overview */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Business Impact Overview</h2>
+            <h2 className="text-5xl font-black text-black mb-4">Business Impact Overview</h2>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Performance Improvements</h3>
+            <div className="bg-gray-100 rounded-2xl p-8 border border-gray-200">
+              <h3 className="text-2xl font-black text-black mb-6 text-center">Performance Improvements</h3>
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -348,32 +347,32 @@ const CRMLandingPage = () => {
               </div>
             </div>
             <div className="space-y-8">
-              <div className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow">
+              <div className="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-black transition-all duration-300">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Lead Conversion Rate</h3>
-                  <span className="text-2xl font-bold text-green-600">↗ 67%</span>
+                  <h3 className="text-lg font-black text-black">Lead Conversion Rate</h3>
+                  <span className="text-2xl font-black text-black">↗ 67%</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-3">
-                  <div className="bg-green-600 h-3 rounded-full" style={{width: '67%'}}></div>
+                <div className="w-full bg-gray-300 rounded-full h-3">
+                  <div className="bg-black h-3 rounded-full" style={{width: '67%'}}></div>
                 </div>
               </div>
-              <div className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow">
+              <div className="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-black transition-all duration-300">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Customer Satisfaction</h3>
-                  <span className="text-2xl font-bold text-blue-600">4.9/5</span>
+                  <h3 className="text-lg font-black text-black">Customer Satisfaction</h3>
+                  <span className="text-2xl font-black text-black">4.9/5</span>
                 </div>
                 <div className="flex">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-6 w-6 text-yellow-400 fill-current" />
+                    <Star key={i} className="h-6 w-6 text-black fill-current" />
                   ))}
                 </div>
               </div>
-              <div className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow">
+              <div className="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-black transition-all duration-300">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Time Savings per Week</h3>
-                  <span className="text-2xl font-bold text-purple-600">22 hrs</span>
+                  <h3 className="text-lg font-black text-black">Time Savings per Week</h3>
+                  <span className="text-2xl font-black text-black">22 hrs</span>
                 </div>
-                <p className="text-gray-600">Average across all team members</p>
+                <p className="text-gray-700 font-medium">Average across all team members</p>
               </div>
             </div>
           </div>
@@ -381,26 +380,26 @@ const CRMLandingPage = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-24 bg-gray-50 border-y border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Customer Success Stories</h2>
+            <h2 className="text-5xl font-black text-black mb-4">Customer Success Stories</h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
+              <div key={index} className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200">
                 <div className="flex mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                    <Star key={i} className="h-5 w-5 text-black fill-current" />
                   ))}
                 </div>
-                <p className="text-gray-700 mb-6 italic">"{testimonial.text}"</p>
+                <p className="text-gray-800 mb-6 italic font-medium">"{testimonial.text}"</p>
                 <div className="flex items-center">
-                  <img src={testimonial.avatar} alt={testimonial.name} className="w-12 h-12 rounded-full mr-4" />
+                  <img src={testimonial.avatar} alt={testimonial.name} className="w-12 h-12 rounded-full mr-4 grayscale" />
                   <div>
-                    <p className="font-semibold text-gray-900">{testimonial.name}</p>
-                    <p className="text-gray-600 text-sm">{testimonial.company}</p>
+                    <p className="font-black text-black">{testimonial.name}</p>
+                    <p className="text-gray-700 text-sm font-medium">{testimonial.company}</p>
                   </div>
                 </div>
               </div>
@@ -410,20 +409,20 @@ const CRMLandingPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-700">
+      <section className="py-24 bg-gradient-to-br from-black to-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white mb-4">
+          <h2 className="text-5xl font-black text-white mb-4">
             Ready to 10x Your Revenue?
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
+          <p className="text-xl text-gray-300 mb-8 font-medium">
             Join 10,000+ companies growing with CruxCRM
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-50 transform hover:scale-105 transition-all duration-200 shadow-lg flex items-center">
+            <button className="bg-white text-black px-8 py-4 rounded-xl font-black hover:bg-gray-100 transform hover:scale-105 transition-all duration-200 shadow-lg flex items-center text-lg">
               Start Your Free Trial
               <ArrowRight className="ml-2 h-5 w-5" />
             </button>
-            <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-all duration-200">
+            <button className="border-2 border-white text-white px-8 py-4 rounded-xl font-black hover:bg-white hover:text-black transition-all duration-200 text-lg">
               Schedule a Demo
             </button>
           </div>
@@ -431,39 +430,39 @@ const CRMLandingPage = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-black text-white py-16 border-t-2 border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             <div>
-              <h3 className="text-2xl font-bold mb-4">CruxCRM</h3>
-              <p className="text-gray-400">The CRM that grows revenue.</p>
+              <h3 className="text-2xl font-black mb-4">CruxCRM</h3>
+              <p className="text-gray-400 font-medium">The CRM that grows revenue.</p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Product</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Features</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Integrations</a></li>
+              <h4 className="font-black mb-4 text-white">Product</h4>
+              <ul className="space-y-2 text-gray-400 font-medium">
+                <li><a href="#" className="hover:text-white transition-colors duration-200">Features</a></li>
+                <li><a href="#" className="hover:text-white transition-colors duration-200">Pricing</a></li>
+                <li><a href="#" className="hover:text-white transition-colors duration-200">Integrations</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Support</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contact Us</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">API Docs</a></li>
+              <h4 className="font-black mb-4 text-white">Support</h4>
+              <ul className="space-y-2 text-gray-400 font-medium">
+                <li><a href="#" className="hover:text-white transition-colors duration-200">Help Center</a></li>
+                <li><a href="#" className="hover:text-white transition-colors duration-200">Contact Us</a></li>
+                <li><a href="#" className="hover:text-white transition-colors duration-200">API Docs</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Company</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">About</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Privacy</a></li>
+              <h4 className="font-black mb-4 text-white">Company</h4>
+              <ul className="space-y-2 text-gray-400 font-medium">
+                <li><a href="#" className="hover:text-white transition-colors duration-200">About</a></li>
+                <li><a href="#" className="hover:text-white transition-colors duration-200">Careers</a></li>
+                <li><a href="#" className="hover:text-white transition-colors duration-200">Privacy</a></li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+          <div className="border-t border-gray-800 pt-8 text-center text-gray-400 font-medium">
             <p>&copy; 2025 CruxCRM. All rights reserved.</p>
           </div>
         </div>

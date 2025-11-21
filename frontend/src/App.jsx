@@ -14,6 +14,8 @@ import Members from './components/Members.jsx';
 import Organizations from './components/Organizations.jsx';
 import Layout from './components/Layout.jsx';
 import CRMLandingPage from './components/CRMLandingPage.jsx';
+import RbacDashboard from './components/RbacDashboard.jsx';
+import RoleBasedRoute from './components/RoleBasedRoute.jsx';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -143,6 +145,16 @@ const router = createBrowserRouter([
           <Organizations />
         </Layout>
       </AdminRoute>
+    )
+  },
+  {
+    path: "/admin/rbac",
+    element: (
+      <RoleBasedRoute requiredPermission="MANAGE_ROLES">
+        <Layout>
+          <RbacDashboard />
+        </Layout>
+      </RoleBasedRoute>
     )
   }
 ], {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext.jsx';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   Users, 
@@ -12,7 +13,8 @@ import {
   ArrowDownRight,
   Activity,
   IndianRupee,
-  Hand
+  Hand,
+  Settings
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -31,6 +33,7 @@ import toast from 'react-hot-toast';
 
 function Dashboard() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const role = user?.role;
 
   const [stats, setStats] = useState({
@@ -106,14 +109,15 @@ function Dashboard() {
   const fetchStats = async () => {
     try {
       setLoading(true);
+      const isManagerOrAdmin = role === 'Admin' || role === 'Manager';
       const [leadsRes, contactsRes, accountsRes, dealsRes, activitiesRes, dealSummaryRes, dealStagesRes] = await Promise.all([
         api.get('/leads').catch(() => ({ data: [] })),
         api.get('/contacts').catch(() => ({ data: [] })),
         api.get('/accounts').catch(() => ({ data: [] })),
         api.get('/deals').catch(() => ({ data: [] })),
         api.get('/activities').catch(() => ({ data: [] })),
-        api.get('/deals/summary').catch(() => ({ data: [] })),
-        api.get('/deals/stages').catch(() => ({ data: [] }))
+        isManagerOrAdmin ? api.get('/deals/summary').catch(() => ({ data: [] })) : Promise.resolve({ data: [] }),
+        isManagerOrAdmin ? api.get('/deals/stages').catch(() => ({ data: [] })) : Promise.resolve({ data: [] })
       ]);
 
       const leads = leadsRes.data || [];
@@ -373,14 +377,18 @@ function Dashboard() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold mb-2 text-[#000]">
-              {isManagerOrAdmin
-                ? `Welcome back, ${user?.name || ''}`
+              {role === 'Admin'
+                ? `Admin control center, ${user?.name || ''}`
+                : role === 'Manager'
+                ? `Team performance, ${user?.name || ''}`
                 : `Your sales cockpit, ${user?.name || ''}`}
             </h1>
             <p className="text-primary-600 text-lg">
-              {isManagerOrAdmin
-                ? "Here's what's happening across your organization"
-                : "Track your pipeline and activities in one place"}
+              {role === 'Admin'
+                ? "Monitor your entire organization, users, and settings at a glance"
+                : role === 'Manager'
+                ? "See how your team is performing across leads and deals"
+                : "Track your personal pipeline and activities in one place"}
             </p>
           </div>
           <div className="hidden md:block">
@@ -465,7 +473,8 @@ function Dashboard() {
         </div>
       )}
 
-      {/* Charts Row */}
+      {/* Charts Row - only for Admin and Manager */}
+      {isManagerOrAdmin && (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Leads & Deals Chart */}
         <motion.div
@@ -564,6 +573,7 @@ function Dashboard() {
           </div>
         </motion.div>
       </div>
+      )}
 
       {/* Bottom Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -621,18 +631,79 @@ function Dashboard() {
           </div>
           <div className="card-content">
             <div className="space-y-3">
-              <button className="w-full btn btn-primary btn-sm justify-start hover:scale-105 transition-all duration-200" onClick={() => setShowLeadModal(true)}>
-                <Plus className="h-4 w-4 mr-2" />
-                Add New Lead
-              </button>
-              <button className="w-full btn btn-outline btn-sm justify-start hover:scale-105 transition-all duration-200" onClick={() => setShowDealModal(true)}>
-                <HandHeart className="h-4 w-4 mr-2" />
-                Add Deal
-              </button>
-              <button className="w-full btn btn-outline btn-sm justify-start hover:scale-105 transition-all duration-200" onClick={() => setShowActivityModal(true)}>
-                <Calendar className="h-4 w-4 mr-2" />
-                Schedule Activity
-              </button>
+              {/* Admin + Sales Rep: engage directly with customers (create) */}
+              {(isSalesRep || role === 'Admin') && (
+                <>
+                  <button
+                    className="w-full btn btn-primary btn-sm justify-start hover:scale-105 transition-all duration-200"
+                    onClick={() => setShowLeadModal(true)}
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add New Lead
+                  </button>
+                  <button
+                    className="w-full btn btn-outline btn-sm justify-start hover:scale-105 transition-all duration-200"
+                    onClick={() => setShowDealModal(true)}
+                  >
+                    <HandHeart className="h-4 w-4 mr-2" />
+                    Add Deal
+                  </button>
+                  <button
+                    className="w-full btn btn-outline btn-sm justify-start hover:scale-105 transition-all duration-200"
+                    onClick={() => setShowActivityModal(true)}
+                  >
+                    <Calendar className="h-4 w-4 mr-2" />
+                    Schedule Activity
+                  </button>
+                </>
+              )}
+
+              {/* Manager: monitor sales reps / team */}
+              {role === 'Manager' && (
+                <>
+                  <button
+                    className="w-full btn btn-outline btn-sm justify-start hover:scale-105 transition-all duration-200"
+                    onClick={() => navigate('/leads')}
+                  >
+                    <Users className="h-4 w-4 mr-2" />
+                    View Team Leads
+                  </button>
+                  <button
+                    className="w-full btn btn-outline btn-sm justify-start hover:scale-105 transition-all duration-200"
+                    onClick={() => navigate('/deals')}
+                  >
+                    <HandHeart className="h-4 w-4 mr-2" />
+                    Review Pipeline
+                  </button>
+                  <button
+                    className="w-full btn btn-outline btn-sm justify-start hover:scale-105 transition-all duration-200"
+                    onClick={() => navigate('/activities')}
+                  >
+                    <Calendar className="h-4 w-4 mr-2" />
+                    Monitor Activities
+                  </button>
+                </>
+              )}
+
+              {/* Admin: keep options focused on org and member management */}
+              {role === 'Admin' && (
+                <>
+                  <button
+                    className="w-full btn btn-outline btn-sm justify-start hover:scale-105 transition-all duration-200"
+                    onClick={() => navigate('/members')}
+                  >
+                    <Users className="h-4 w-4 mr-2" />
+                    Manage Members
+                  </button>
+                  <button
+                    className="w-full btn btn-outline btn-sm justify-start hover:scale-105 transition-all duration-200"
+                    onClick={() => navigate('/organizations')}
+                  >
+                    <Building2 className="h-4 w-4 mr-2" />
+                    Manage Organizations
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </motion.div>

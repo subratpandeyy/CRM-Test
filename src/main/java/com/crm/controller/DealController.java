@@ -56,18 +56,20 @@ public class DealController {
     }
 
     @GetMapping("/summary")
-    public ResponseEntity<?> getDealSummary() {
+    public ResponseEntity<?> getDealSummary(Authentication authentication, HttpServletRequest request) {
         try {
-            return ResponseEntity.ok(dealService.getMonthlySummary());
+            Long orgId = authenticationUtils.getOrgIdFromAuthentication(authentication, request);
+            return ResponseEntity.ok(dealService.getMonthlySummary(orgId));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
     }
 
     @GetMapping("/stages")
-    public ResponseEntity<?> getDealStageDistribution() {
+    public ResponseEntity<?> getDealStageDistribution(Authentication authentication, HttpServletRequest request) {
         try {
-            return ResponseEntity.ok(dealService.getStageDistribution());
+            Long orgId = authenticationUtils.getOrgIdFromAuthentication(authentication, request);
+            return ResponseEntity.ok(dealService.getStageDistribution(orgId));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }

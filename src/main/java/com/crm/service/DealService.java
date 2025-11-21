@@ -105,8 +105,11 @@ public class DealService {
     }
 
     @Transactional(readOnly = true)
-    public List<Map<String, Object>> getMonthlySummary() {
-        List<Object[]> rows = dealRepository.findMonthlyDealSummary();
+    public List<Map<String, Object>> getMonthlySummary(Long orgId) {
+        Organization organization = organizationRepository.findById(orgId)
+                .orElseThrow(() -> new RuntimeException("Organization not found"));
+
+        List<Object[]> rows = dealRepository.findMonthlyDealSummaryByOrganization(organization);
         List<Map<String, Object>> result = new ArrayList<>();
         for (Object[] r : rows) {
             Map<String, Object> row = new HashMap<>();
@@ -119,8 +122,11 @@ public class DealService {
     }
 
     @Transactional(readOnly = true)
-    public List<Map<String, Object>> getStageDistribution() {
-        List<Object[]> rows = dealRepository.findDealStageDistribution();
+    public List<Map<String, Object>> getStageDistribution(Long orgId) {
+        Organization organization = organizationRepository.findById(orgId)
+                .orElseThrow(() -> new RuntimeException("Organization not found"));
+
+        List<Object[]> rows = dealRepository.findDealStageDistributionByOrganization(organization);
         List<Map<String, Object>> result = new ArrayList<>();
         for (Object[] r : rows) {
             Map<String, Object> row = new HashMap<>();

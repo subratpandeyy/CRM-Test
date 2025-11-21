@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext.jsx';
 import { motion } from 'framer-motion';
 import { Mail, Lock, Eye, EyeOff, BarChart3, ArrowRight, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
+import logo from "../assets/logo.png"
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -114,14 +115,14 @@ function Login() {
         >
           <div className="flex justify-center">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary-600 shadow-lg">
-              <BarChart3 className="h-8 w-8 text-white" />
+              <img src={logo} />
             </div>
           </div>
           <h2 className="mt-6 text-3xl font-bold text-text">
             Welcome back
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Sign in to your CRM Pro account
+            Sign in to your CRM account
           </p>
         </motion.div>
 

@@ -15,6 +15,8 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
+import logo from "../assets/logo.png";
+
 function Register() {
   const [formData, setFormData] = useState({
     orgName: '',
@@ -98,14 +100,14 @@ function Register() {
         >
           <div className="flex justify-center">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary-600 shadow-lg">
-              <BarChart3 className="h-8 w-8 text-white" />
+              <img src={logo} />
             </div>
           </div>
           <h2 className="mt-6 text-3xl font-bold text-text">
             Create your organization
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Get started with CRM Pro in just a few steps
+            Get started with CRM in just a few steps
           </p>
         </motion.div>
 
