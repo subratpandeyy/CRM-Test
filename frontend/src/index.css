@@ -10,7 +10,7 @@
   
   body {
     font-feature-settings: "rlig" 1, "calt" 1;
-    color: theme('colors.text');
+    color: #000;
     @apply bg-background;
   }
   
@@ -26,16 +26,16 @@
   
   /* Primary: solid black button */
   .btn-primary {
-    @apply bg-black text-white hover:bg-gray-900 active:bg-gray-950 hover:shadow-lg;
+    @apply bg-[#004E92] text-white hover:bg-[#4DA3FF] active:bg-[#004E92] hover:shadow-lg;
   }
   
   /* Secondary: white with black border */
   .btn-secondary {
-    @apply bg-white text-primary-500 border border-primary-500 hover:bg-gray-50 active:bg-gray-100;
+    @apply bg-white text-primary-500 border border-primary-500 hover:bg-[#4DA3FF] active:bg-gray-100;
   }
   
   .btn-success {
-    @apply bg-black text-white hover:bg-gray-900 active:bg-gray-950;
+    @apply bg-[#004E92] text-white hover:bg-[#4DA3FF] active:bg-[#004E92];
   }
   
   /* Danger: visually same palette but can be styled differently later */
@@ -104,7 +104,7 @@
   }
   
   .badge-success {
-    @apply border-transparent bg-success-500 text-white hover:bg-success-600;
+    @apply border-transparent bg-[#008523] text-white hover:bg-success-600;
   }
   
   .badge-warning {

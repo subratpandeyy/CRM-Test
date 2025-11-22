@@ -444,7 +444,7 @@ if (stages.length > 0) {
                 ? `Team performance, ${user?.name || ''}`
                 : `Your sales cockpit, ${user?.name || ''}`}
             </h1>
-            <p className="text-primary-600 text-lg">
+            <p className="text-text text-lg">
               {role === 'Admin'
                 ? "Monitor your entire organization, users, and settings at a glance"
                 : role === 'Manager'

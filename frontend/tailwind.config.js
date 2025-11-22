@@ -89,7 +89,8 @@ module.exports = {
         // text: '#111827',
         text: '#004E92',
         // textMuted: '#6b7280',
-        textMuted: '#fff',
+        side: '#fff',
+        textMuted: '#333333',
         borderSubtle: '#e5e7eb',
       },
       fontFamily: {

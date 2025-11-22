@@ -47,9 +47,9 @@ function Layout({ children }) {
 
   const Sidebar = () => (
     <motion.div
-      initial={{ x: -300 }}
-      animate={{ x: 0 }}
-      exit={{ x: -300 }}
+      // initial={{ x: -300 }}
+      // animate={{ x: 0 }}
+      // exit={{ x: 100 }}
       className="fixed inset-y-0 left-0 z-50 w-64 bg-[#004E92] text-text shadow-xl border-r border-borderSubtle lg:static lg:inset-0 lg:z-auto"
     >
       <div className="flex h-full flex-col">
@@ -59,7 +59,7 @@ function Layout({ children }) {
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black shadow-lg">
               <img src={logo} />
             </div>
-            <span className="text-xl font-bold text-text">CruxCRM</span>
+            <span className="text-2xl font-bold text-black">CRUXCRM</span>
           </div>
             <button
             onClick={() => setSidebarOpen(false)}
@@ -83,7 +83,7 @@ function Layout({ children }) {
                 className={`w-full flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all duration-150 ${
                   isActive(item.href)
                     ? 'bg-[#fff] text-[#004E92] border-r-2 border-[#4DA3FF] shadow-sm'
-                    : 'text-textMuted hover:text-text hover:bg-gray-100'
+                    : 'text-side hover:text-text hover:bg-gray-100'
                 }`}
               >
                 <Icon className="mr-3 h-5 w-5" />
@@ -94,7 +94,7 @@ function Layout({ children }) {
 
           {user && user.role === 'Admin' && (
             <div className="pt-4">
-              <div className="px-3 py-2 text-xs font-semibold text-textMuted uppercase tracking-wider">
+              <div className="px-3 py-2 text-xs font-semibold text-side uppercase tracking-wider">
                 Administration
               </div>
               {adminNavigation.map((item) => {
@@ -109,7 +109,7 @@ function Layout({ children }) {
                 className={`w-full flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all duration-150 ${
                       isActive(item.href)
                         ? 'bg-[#fff] text-[#004E92] border-r-2 border-[#004E92] shadow-sm'
-                        : 'text-textMuted hover:text-text hover:bg-gray-100'
+                        : 'text-side hover:text-text hover:bg-gray-100'
                     }`}
                   >
                     <Icon className="mr-3 h-5 w-5" />
