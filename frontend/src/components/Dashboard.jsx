@@ -453,7 +453,7 @@ if (stages.length > 0) {
             </p>
           </div>
           <div className="hidden md:block">
-            <div className="bg-primary-500 backdrop-blur-sm rounded-xl p-6 border border-primary-300">
+            <div className="bg-[#004E92] backdrop-blur-sm rounded-xl p-6 border border-primary-300">
               <div className="text-center">
                 <div className="text-2xl font-bold">{new Date().toLocaleDateString()}</div>
                 <div className="text-primary-100 text-sm">Today</div>

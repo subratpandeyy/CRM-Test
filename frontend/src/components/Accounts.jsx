@@ -186,7 +186,7 @@ function Accounts() {
           </div>
         ) : (
           filteredAccounts.map((account) => (
-            <div key={account.accountId} className="card hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div key={account.accountId} className="card hover:shadow-xl transition-all duration-300 hover:scale-102">
               <div className="card-content">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">

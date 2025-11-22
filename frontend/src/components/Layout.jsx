@@ -50,7 +50,7 @@ function Layout({ children }) {
       initial={{ x: -300 }}
       animate={{ x: 0 }}
       exit={{ x: -300 }}
-      className="fixed inset-y-0 left-0 z-50 w-64 bg-white text-text shadow-xl border-r border-borderSubtle lg:static lg:inset-0 lg:z-auto"
+      className="fixed inset-y-0 left-0 z-50 w-64 bg-[#004E92] text-text shadow-xl border-r border-borderSubtle lg:static lg:inset-0 lg:z-auto"
     >
       <div className="flex h-full flex-col">
         {/* Logo */}
@@ -63,7 +63,7 @@ function Layout({ children }) {
           </div>
             <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-black hover:bg-gray-100 transition-all duration-150"
+            className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-100 transition-all duration-150"
           >
             <X className="h-5 w-5" />
           </button>
@@ -82,7 +82,7 @@ function Layout({ children }) {
                 }}
                 className={`w-full flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all duration-150 ${
                   isActive(item.href)
-                    ? 'bg-black text-white border-r-2 border-black shadow-sm'
+                    ? 'bg-[#fff] text-[#004E92] border-r-2 border-[#4DA3FF] shadow-sm'
                     : 'text-textMuted hover:text-text hover:bg-gray-100'
                 }`}
               >
@@ -108,7 +108,7 @@ function Layout({ children }) {
                     }}
                 className={`w-full flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all duration-150 ${
                       isActive(item.href)
-                        ? 'bg-black text-white border-r-2 border-black shadow-sm'
+                        ? 'bg-[#fff] text-[#004E92] border-r-2 border-[#004E92] shadow-sm'
                         : 'text-textMuted hover:text-text hover:bg-gray-100'
                     }`}
                   >
@@ -124,22 +124,22 @@ function Layout({ children }) {
         {/* User Profile */}
         <div className="border-t border-borderSubtle/40 p-4 bg-white">
           <div className="flex items-center space-x-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black shadow-sm">
-              <span className="text-sm font-medium text-white">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 shadow-sm">
+              <span className="text-lg font-medium text-text">
                 {user?.name?.charAt(0) || 'U'}
               </span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-text truncate">
+              <p className="text-sm font-medium text-[#004E92] truncate">
                 {user?.name || 'User'}
               </p>
-              <p className="text-xs text-textMuted truncate">
+              <p className="text-xs text-gray-500 truncate">
                 {user?.orgName}
               </p>
             </div>
             <button
               onClick={handleLogout}
-              className="p-2 text-gray-400 hover:text-black hover:bg-gray-100 rounded-lg transition-all duration-150"
+              className="p-2 text-gray-500 hover:text-text hover:bg-gray-100 rounded-lg transition-all duration-150"
             >
               <LogOut className="h-4 w-4" />
             </button>

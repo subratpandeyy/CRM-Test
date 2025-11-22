@@ -86,8 +86,10 @@ module.exports = {
         background: '#f9fafb',
         backgroundSoft: '#f3f4f6',
         card: '#ffffff',
-        text: '#111827',
-        textMuted: '#6b7280',
+        // text: '#111827',
+        text: '#004E92',
+        // textMuted: '#6b7280',
+        textMuted: '#fff',
         borderSubtle: '#e5e7eb',
       },
       fontFamily: {
